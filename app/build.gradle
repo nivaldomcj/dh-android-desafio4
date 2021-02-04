@@ -36,6 +36,8 @@ android {
 
 ext {
     // dependencies versioning
+    androidx_navigation = "2.3.3"
+    androidx_lifecycle = "2.2.0"
 }
 
 dependencies {
@@ -50,4 +52,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation 'junit:junit:4.13.1'
+
+    // androidx: navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation"
+
+    // androidx: lifecycle (viewmodel)
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle"
 }

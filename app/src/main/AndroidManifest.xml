@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nivaldo.dh.exercise.firebase">
 
-    <!-- https://stackoverflow.com/a/52421722 -->
     <application
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -13,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Games"
         tools:replace="android:allowBackup">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name="nivaldo.dh.exercise.firebase.auth.view.AuthActivity"
+            android:label="@string/title_activity_auth"
+            android:theme="@style/Theme.Games.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

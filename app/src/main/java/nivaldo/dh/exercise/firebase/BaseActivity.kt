@@ -15,9 +15,4 @@ abstract class BaseActivity: AppCompatActivity() {
         this.setPortraitOrientation()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        super.onBackPressed()
-        return true
-    }
-
 }

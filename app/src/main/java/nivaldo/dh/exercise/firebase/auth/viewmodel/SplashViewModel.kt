@@ -7,20 +7,25 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nivaldo.dh.exercise.firebase.auth.model.Splash
+import nivaldo.dh.exercise.firebase.auth.model.business.SplashBusiness
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
-    val splashResult: MutableLiveData<Splash> = MutableLiveData()
+    val onSplashResult: MutableLiveData<Splash> = MutableLiveData()
 
-    fun initSplashScreen() {
+    private val business by lazy {
+        SplashBusiness()
+    }
+
+    fun getSplashScreen() {
         viewModelScope.launch {
             delay(2000)
-            updateSplashResult()
+            setSplashResult()
         }
     }
 
-    private fun updateSplashResult() {
-        splashResult.postValue(Splash())
+    private fun setSplashResult() {
+        onSplashResult.postValue(business.getSplashResult())
     }
 
 }

@@ -13,18 +13,15 @@ import nivaldo.dh.exercise.firebase.databinding.FragmentSplashBinding
 class SplashFragment : Fragment() {
 
     private lateinit var splashViewModel: SplashViewModel
-
     private lateinit var binding: FragmentSplashBinding
 
-
-    private fun setSplashObservable() {
-        splashViewModel.initSplashScreen()
-        splashViewModel.splashResult.observe(this, {
+    private fun initSplashScreen() {
+        splashViewModel.getSplashScreen()
+        splashViewModel.onSplashResult.observe(viewLifecycleOwner, {
             val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
             findNavController().navigate(action)
         })
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,11 +32,11 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         splashViewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
-        setSplashObservable()
+        initSplashScreen()
     }
 
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import nivaldo.dh.exercise.firebase.auth.model.UserModel
-import nivaldo.dh.exercise.firebase.auth.model.business.RegisterBusiness
+import nivaldo.dh.exercise.firebase.auth.model.business.AuthBusiness
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,7 +15,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     val onRegisterUserFailure: MutableLiveData<String> = MutableLiveData()
 
     private val business by lazy {
-        RegisterBusiness()
+        AuthBusiness()
     }
 
     fun registerUser(name: String, email: String, password: String, repeatPassword: String) {

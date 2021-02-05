@@ -1,13 +1,13 @@
 package nivaldo.dh.exercise.firebase.auth.model.business
 
-import nivaldo.dh.exercise.firebase.auth.model.repository.RegisterRepository
+import nivaldo.dh.exercise.firebase.auth.model.repository.AuthRepository
 import nivaldo.dh.exercise.firebase.shared.data.Response
 import nivaldo.dh.exercise.firebase.shared.utils.StringUtils.isEmailAddressValid
 
-class RegisterBusiness {
+class AuthBusiness {
 
-    private val registerRepository by lazy {
-        RegisterRepository()
+    private val authRepository by lazy {
+        AuthRepository()
     }
 
     suspend fun registerUser(name: String,
@@ -35,7 +35,7 @@ class RegisterBusiness {
             return Response.Failure("Password and Repeat Password does not match")
         }
 
-        return registerRepository.registerUser(name, email, password)
+        return authRepository.registerUser(name, email, password)
     }
 
 }

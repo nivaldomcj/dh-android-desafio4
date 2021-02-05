@@ -11,22 +11,20 @@ import nivaldo.dh.exercise.firebase.auth.model.UserModel
 import nivaldo.dh.exercise.firebase.shared.constants.FirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
-class RegisterRepository {
+class AuthRepository {
 
-    private val firebaseAuth by lazy {
+    private val authentication by lazy {
         Firebase.auth
     }
-    private val firebaseFirestore by lazy {
-        Firebase.firestore
+    private val usersCollection by lazy {
+        Firebase.firestore.collection(FirestoreConstants.COLLECTION_USERS)
     }
 
     private suspend fun createUserOnFirestore(userUid: String, userName: String): Response {
         return try {
             val newUser = UserModel(userUid, userName)
 
-            firebaseFirestore
-                .collection(FirestoreConstants.COLLECTION_USERS)
-                .document(userUid)
+            usersCollection.document(userUid)
                 .set(newUser, SetOptions.merge())
                 .await()
 
@@ -38,7 +36,7 @@ class RegisterRepository {
 
     suspend fun registerUser(name: String, email: String, password: String): Response {
         return try {
-            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            val result = authentication.createUserWithEmailAndPassword(email, password).await()
 
             result.user?.let {
                 createUserOnFirestore(it.uid, name)

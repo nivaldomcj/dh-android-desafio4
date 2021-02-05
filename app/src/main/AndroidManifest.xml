@@ -13,9 +13,10 @@
         android:theme="@style/Theme.Games"
         tools:replace="android:allowBackup">
         <activity
-            android:name="nivaldo.dh.exercise.firebase.auth.view.activity.AuthActivity"
-            android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.Games.NoActionBar">
+            android:name="nivaldo.dh.exercise.firebase.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Games.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

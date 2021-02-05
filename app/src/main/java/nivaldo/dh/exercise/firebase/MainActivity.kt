@@ -1,10 +1,10 @@
-package nivaldo.dh.exercise.firebase.main.view.activity
+package nivaldo.dh.exercise.firebase
 
 import android.os.Bundle
-import nivaldo.dh.exercise.firebase.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
 import nivaldo.dh.exercise.firebase.databinding.ActivityMainBinding
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

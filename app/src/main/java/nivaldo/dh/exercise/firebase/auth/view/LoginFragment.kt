@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.view.fragment
+package nivaldo.dh.exercise.firebase.auth.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,11 +17,11 @@ class LoginFragment : Fragment() {
 
     private fun initComponents() {
         binding.btnSignIn.setOnClickListener {
-
+            val action = LoginFragmentDirections.actionLoginFragmentToListGamesFragment()
+            findNavController().navigate(action)
         }
 
         binding.btnCreateAccount.setOnClickListener {
-            // TODO handle back button to Login Screen
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(action)
         }

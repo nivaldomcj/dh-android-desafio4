@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/auth_nav_graph"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/splash_fragment">
 
     <fragment
         android:id="@+id/splash_fragment"
-        android:name="nivaldo.dh.exercise.firebase.auth.view.fragment.SplashFragment"
+        android:name="nivaldo.dh.exercise.firebase.auth.view.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="nivaldo.dh.exercise.firebase.auth.view.fragment.LoginFragment"
+        android:name="nivaldo.dh.exercise.firebase.auth.view.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
         <action
@@ -33,11 +33,23 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_login_fragment_to_listGamesFragment"
+            app:destination="@id/listGamesFragment"
+            app:popUpTo="@id/login_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/register_fragment"
-        android:name="nivaldo.dh.exercise.firebase.auth.view.fragment.RegisterFragment"
+        android:name="nivaldo.dh.exercise.firebase.auth.view.RegisterFragment"
         android:label="@string/register"
         tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/listGamesFragment"
+        android:name="nivaldo.dh.exercise.firebase.home.view.ListGamesFragment"
+        android:label="Games"
+        tools:layout="@layout/fragment_list_games" />
+
 </navigation>

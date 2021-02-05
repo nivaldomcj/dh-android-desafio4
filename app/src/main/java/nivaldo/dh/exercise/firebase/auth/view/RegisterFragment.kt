@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.view.fragment
+package nivaldo.dh.exercise.firebase.auth.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,7 +27,7 @@ class RegisterFragment : Fragment() {
 
     private fun initObservables() {
         registerViewModel.onRegisterUserSuccess.observe(viewLifecycleOwner, {
-
+            // call main navigation
         })
         registerViewModel.onRegisterUserFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()

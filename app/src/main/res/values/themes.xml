@@ -29,6 +29,9 @@
         <item name="android:windowBackground">@drawable/img_background</item>
     </style>
 
+    <style name="Theme.Games.NoActionBar.GrayedBackground" parent="Theme.Games.NoActionBar">
+    </style>
+
     <style name="Theme.Games.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Games.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

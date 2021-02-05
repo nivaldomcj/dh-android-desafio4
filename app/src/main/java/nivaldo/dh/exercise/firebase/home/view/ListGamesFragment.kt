@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.main.view.fragment
+package nivaldo.dh.exercise.firebase.home.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

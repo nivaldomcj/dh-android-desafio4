@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.view.fragment
+package nivaldo.dh.exercise.firebase.auth.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.auth.viewmodel.SplashViewModel
 import nivaldo.dh.exercise.firebase.databinding.FragmentSplashBinding
 

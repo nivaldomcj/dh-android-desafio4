@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.repository
+package nivaldo.dh.exercise.firebase.auth.model.repository
 
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth

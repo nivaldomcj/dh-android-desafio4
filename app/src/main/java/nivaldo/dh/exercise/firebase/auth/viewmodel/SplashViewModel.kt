@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nivaldo.dh.exercise.firebase.auth.model.SplashModel
-import nivaldo.dh.exercise.firebase.auth.business.SplashBusiness
+import nivaldo.dh.exercise.firebase.auth.model.business.SplashBusiness
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 

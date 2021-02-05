@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.repository
+package nivaldo.dh.exercise.firebase.auth.model.repository
 
 import nivaldo.dh.exercise.firebase.auth.model.SplashModel
 

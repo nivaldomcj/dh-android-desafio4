@@ -1,6 +1,6 @@
-package nivaldo.dh.exercise.firebase.auth.business
+package nivaldo.dh.exercise.firebase.auth.model.business
 
-import nivaldo.dh.exercise.firebase.auth.repository.RegisterRepository
+import nivaldo.dh.exercise.firebase.auth.model.repository.RegisterRepository
 import nivaldo.dh.exercise.firebase.shared.data.Response
 import nivaldo.dh.exercise.firebase.shared.utils.StringUtils.isEmailAddressValid
 

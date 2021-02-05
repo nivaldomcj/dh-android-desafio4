@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.shared.constants
+package nivaldo.dh.exercise.firebase.shared.constant
 
 object FirestoreConstants {
 

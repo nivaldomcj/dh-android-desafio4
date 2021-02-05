@@ -2,7 +2,7 @@ package nivaldo.dh.exercise.firebase.auth.model.business
 
 import nivaldo.dh.exercise.firebase.auth.model.repository.AuthRepository
 import nivaldo.dh.exercise.firebase.shared.data.Response
-import nivaldo.dh.exercise.firebase.shared.utils.StringUtils.isEmailAddressValid
+import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
 class AuthBusiness {
 
@@ -10,10 +10,12 @@ class AuthBusiness {
         AuthRepository()
     }
 
-    suspend fun registerUser(name: String,
-                             email: String,
-                             password: String,
-                             repeatPassword: String): Response {
+    suspend fun registerUser(
+        name: String,
+        email: String,
+        password: String,
+        repeatPassword: String
+    ): Response {
         if (name.isBlank()) {
             return Response.Failure("Name field is required")
         }
@@ -21,7 +23,7 @@ class AuthBusiness {
         if (email.isBlank()) {
             return Response.Failure("E-mail field is required")
         }
-        if (!isEmailAddressValid(email)) {
+        if (email.isValidEmailAddress()) {
             return Response.Failure("Email is not valid")
         }
 

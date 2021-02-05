@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import nivaldo.dh.exercise.firebase.auth.model.UserModel
-import nivaldo.dh.exercise.firebase.shared.constants.FirestoreConstants
+import nivaldo.dh.exercise.firebase.shared.constant.FirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class AuthRepository {

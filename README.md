@@ -1,12 +1,8 @@
 ## Sobre
 
-<center>
+<img src="/img/desafio.gif">
 
-<img src="/imgs/desafio.gif">
-
-Exercício _Desafio Firebase_ (Desafio 4) desenvolvido no Curso Santander Coders Mobile Android da Digital House. 
-
-</center>
+Exercício _Desafio Firebase_ (Desafio 4) desenvolvido no Curso Santander Coders Mobile Android da Digital House.
 
 ## Objetivos
 

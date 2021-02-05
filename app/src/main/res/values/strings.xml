@@ -14,4 +14,6 @@
     <string name="login">Login</string>
     <string name="insert_game">Insert game</string>
     <string name="game_image">Game image</string>
+    <string name="sign_out">Sign out</string>
+    <string name="search_games">Search Games</string>
 </resources>

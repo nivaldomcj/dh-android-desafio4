@@ -6,5 +6,11 @@ data class GameModel(
     @DocumentId
     val uid: String? = "",
 
-    // TODO
+    val imagePath: String? = "",
+
+    val title: String? = "",
+
+    val releaseYear: Int? = 0,
+
+    val description: String? = "",
 )

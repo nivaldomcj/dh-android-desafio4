@@ -25,11 +25,8 @@
         <item name="colorControlNormal">@color/white</item>
 
         <item name="android:statusBarColor" tools:targetApi="l">@color/cyprus</item>
-        <item name="android:navigationBarColor">@color/cyprus</item>
+        <item name="android:navigationBarColor">@color/midnight</item>
         <item name="android:windowBackground">@drawable/img_background</item>
-    </style>
-
-    <style name="Theme.Games.NoActionBar.GrayedBackground" parent="Theme.Games.NoActionBar">
     </style>
 
     <style name="Theme.Games.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

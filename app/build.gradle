@@ -47,6 +47,7 @@ ext {
     kotlin_coroutines = "1.4.1"
     firebase_bom = "26.4.0"
     firebase_firestore = "22.0.2"
+    material_search_bar = "0.8.5"
 }
 
 dependencies {
@@ -87,4 +88,9 @@ dependencies {
     // firebase: firestore
     implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore"
 
+    // firebase: storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
+    // material search bar
+    implementation "com.github.mancj:MaterialSearchBar:$material_search_bar"
 }

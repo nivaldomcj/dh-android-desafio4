@@ -34,8 +34,12 @@
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
         <action
-            android:id="@+id/action_login_fragment_to_listGamesFragment"
-            app:destination="@id/listGamesFragment"
+            android:id="@+id/action_login_fragment_to_list_games_fragment"
+            app:destination="@id/list_games_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
             app:popUpTo="@id/login_fragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -47,7 +51,7 @@
         tools:layout="@layout/fragment_register" />
 
     <fragment
-        android:id="@+id/listGamesFragment"
+        android:id="@+id/list_games_fragment"
         android:name="nivaldo.dh.exercise.firebase.home.view.ListGamesFragment"
         android:label="Games"
         tools:layout="@layout/fragment_list_games" />

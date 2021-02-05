@@ -7,11 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentListGamesBinding
 import nivaldo.dh.exercise.firebase.home.model.GameModel
 import nivaldo.dh.exercise.firebase.home.view.adapter.GameAdapter

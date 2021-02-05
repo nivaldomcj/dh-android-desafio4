@@ -16,4 +16,6 @@
     <string name="game_image">Game image</string>
     <string name="sign_out">Sign out</string>
     <string name="search_games">Search Games</string>
+    <string name="splash">Splash</string>
+    <string name="games">Games</string>
 </resources>

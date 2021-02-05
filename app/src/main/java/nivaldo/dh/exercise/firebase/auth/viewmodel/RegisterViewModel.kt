@@ -22,7 +22,8 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             when (val response = business.registerUser(name, email, password, repeatPassword)) {
                 is Response.Success -> {
-                    onRegisterUserSuccess.postValue(response.data as? UserModel)
+                    val user = response.data as? UserModel
+                    onRegisterUserSuccess.postValue(user)
                 }
                 is Response.Failure -> {
                     onRegisterUserFailure.postValue(response.error)

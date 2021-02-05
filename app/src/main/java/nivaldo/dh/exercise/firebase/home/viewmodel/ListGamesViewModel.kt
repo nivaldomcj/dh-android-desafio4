@@ -22,8 +22,8 @@ class ListGamesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             when (val response = gameBusiness.getGamesList()) {
                 is Response.Success -> {
-                    @Suppress("UNCHECKED_CAST")
-                    onGetGamesListSuccess.postValue(response.data as? List<GameModel>)
+                    val gamesList = (response.data as? MutableList<*>)
+                    onGetGamesListSuccess.postValue(gamesList?.filterIsInstance<GameModel>())
                 }
                 is Response.Failure -> {
                     onGetGamesListFailure.postValue(response.error)

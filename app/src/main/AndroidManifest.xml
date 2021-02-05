@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Games"
         tools:replace="android:allowBackup">
         <activity
-            android:name="nivaldo.dh.exercise.firebase.auth.view.AuthActivity"
+            android:name="nivaldo.dh.exercise.firebase.auth.view.activity.AuthActivity"
             android:label="@string/title_activity_auth"
             android:theme="@style/Theme.Games.NoActionBar">
             <intent-filter>

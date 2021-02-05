@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.auth.view
+package nivaldo.dh.exercise.firebase.auth.view.activity
 
 import android.os.Bundle
 import nivaldo.dh.exercise.firebase.BaseActivity

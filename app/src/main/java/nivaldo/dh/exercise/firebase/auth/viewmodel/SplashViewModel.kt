@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nivaldo.dh.exercise.firebase.auth.model.Splash
-import nivaldo.dh.exercise.firebase.auth.model.business.SplashBusiness
+import nivaldo.dh.exercise.firebase.auth.model.SplashModel
+import nivaldo.dh.exercise.firebase.auth.business.SplashBusiness
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
-    val onSplashResult: MutableLiveData<Splash> = MutableLiveData()
+    val onSplashResult: MutableLiveData<SplashModel> = MutableLiveData()
 
     private val business by lazy {
         SplashBusiness()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -24,9 +25,23 @@ class RegisterFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
+    private fun initObservables() {
+        registerViewModel.onRegisterUserSuccess.observe(viewLifecycleOwner, {
+
+        })
+        registerViewModel.onRegisterUserFailure.observe(viewLifecycleOwner, {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        })
+    }
+
     private fun initComponents() {
         binding.btnRegister.setOnClickListener {
-            // TODO
+            val name = binding.etName.text.toString()
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            val repeatPassword = binding.etRepeatPassword.text.toString()
+
+            registerViewModel.registerUser(name, email, password, repeatPassword)
         }
     }
 
@@ -49,6 +64,7 @@ class RegisterFragment : Fragment() {
 
         initToolbar()
         initComponents()
+        initObservables()
     }
 
 }

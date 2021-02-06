@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import nivaldo.dh.exercise.firebase.databinding.ItemGameBinding
-import nivaldo.dh.exercise.firebase.home.model.GameModel
+import nivaldo.dh.exercise.firebase.home.model.Game
 
 class GameAdapter(
-    private val gamesList: List<GameModel>,
-    private val onGameClicked: (GameModel) -> Unit
+    private val gamesList: List<Game>,
+    private val onGameClicked: (Game) -> Unit
 ) : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
@@ -29,14 +29,14 @@ class GameAdapter(
         private val binding: ItemGameBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(gameModel: GameModel, onGameClicked: (GameModel) -> Unit): Unit = with(binding) {
-            tvGameTitle.text = gameModel.title
-            tvGameReleaseYear.text = gameModel.releaseYear.toString()
+        fun bind(game: Game, onGameClicked: (Game) -> Unit): Unit = with(binding) {
+            tvGameTitle.text = game.title
+            tvGameReleaseYear.text = game.releaseYear.toString()
 
             // TODO chamar glide com a imagem vinda do storage
 
             itemView.setOnClickListener {
-                onGameClicked(gameModel)
+                onGameClicked(game)
             }
         }
 

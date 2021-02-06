@@ -54,6 +54,24 @@
         android:id="@+id/list_games_fragment"
         android:name="nivaldo.dh.exercise.firebase.home.view.ListGamesFragment"
         android:label="@string/games"
-        tools:layout="@layout/fragment_list_games" />
+        tools:layout="@layout/fragment_list_games" >
+        <action
+            android:id="@+id/action_list_games_fragment_to_detail_game_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:destination="@id/detail_game_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detail_game_fragment"
+        android:name="nivaldo.dh.exercise.firebase.home.view.DetailGameFragment"
+        android:label="fragment_detail_game"
+        tools:layout="@layout/fragment_detail_game" >
+        <argument
+            android:name="game"
+            app:argType="nivaldo.dh.exercise.firebase.home.model.Game" />
+    </fragment>
 
 </navigation>

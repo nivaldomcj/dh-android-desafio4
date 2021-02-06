@@ -18,4 +18,8 @@
     <string name="search_games">Search Games</string>
     <string name="splash">Splash</string>
     <string name="games">Games</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_game">Edit game</string>
+    <string name="fmt_release_year">Release year: %1$d</string>
 </resources>

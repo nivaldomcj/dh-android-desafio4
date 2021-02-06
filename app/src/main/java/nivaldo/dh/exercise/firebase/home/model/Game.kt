@@ -1,8 +1,11 @@
 package nivaldo.dh.exercise.firebase.home.model
 
+import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId
+import kotlinx.parcelize.Parcelize
 
-data class GameModel(
+@Parcelize
+data class Game(
     @DocumentId
     val uid: String? = "",
 
@@ -13,4 +16,4 @@ data class GameModel(
     val releaseYear: Int? = 0,
 
     val description: String? = "",
-)
+) : Parcelable

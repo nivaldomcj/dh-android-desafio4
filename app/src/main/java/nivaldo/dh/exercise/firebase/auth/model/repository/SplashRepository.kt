@@ -1,11 +1,11 @@
 package nivaldo.dh.exercise.firebase.auth.model.repository
 
-import nivaldo.dh.exercise.firebase.auth.model.SplashModel
+import nivaldo.dh.exercise.firebase.auth.model.Splash
 
 class SplashRepository {
 
-    fun getSplashResult(): SplashModel {
-        return SplashModel()
+    fun getSplashResult(): Splash {
+        return Splash()
     }
 
 }

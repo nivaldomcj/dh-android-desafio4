@@ -8,26 +8,26 @@
     tools:context=".home.view.ListGamesFragment">
 
     <com.mancj.materialsearchbar.MaterialSearchBar
-        app:mt_speechMode="true"
-        app:mt_maxSuggestionsCount="10"
-        app:mt_placeholder="@string/search_games"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/rv_games"
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:id="@+id/search_bar" />
+        app:layout_constraintBottom_toTopOf="@id/rv_games"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_placeholder="@string/search_games"
+        app:mt_speechMode="true" />
 
     <ProgressBar
         android:id="@+id/pb_loading_games"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_games"
@@ -35,11 +35,10 @@
         android:layout_height="0dp"
         android:layout_margin="4dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
         tools:itemCount="10"
         tools:listitem="@layout/item_game" />
 

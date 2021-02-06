@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import nivaldo.dh.exercise.firebase.databinding.FragmentListGamesBinding
-import nivaldo.dh.exercise.firebase.home.model.GameModel
+import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.view.adapter.GameAdapter
 import nivaldo.dh.exercise.firebase.home.viewmodel.ListGamesViewModel
 
@@ -18,7 +19,7 @@ class ListGamesFragment : Fragment() {
     private lateinit var listGamesViewModel: ListGamesViewModel
     private lateinit var binding: FragmentListGamesBinding
 
-    private fun loadListGamesRecyclerView(gamesList: List<GameModel>) {
+    private fun loadListGamesRecyclerView(gamesList: List<Game>) {
         // hide loading
         binding.pbLoadingGames.visibility = View.GONE
 
@@ -26,7 +27,10 @@ class ListGamesFragment : Fragment() {
         binding.rvGames.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = GameAdapter(gamesList) {
-                // TODO chamar ReadGame
+                val action = ListGamesFragmentDirections
+                    .actionListGamesFragmentToDetailGameFragment(it)
+
+                findNavController().navigate(action)
             }
         }
     }

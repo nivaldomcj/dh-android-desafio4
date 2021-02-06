@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import nivaldo.dh.exercise.firebase.home.model.GameModel
+import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.shared.constant.FirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
@@ -17,7 +17,7 @@ class GameRepository {
     suspend fun getGamesList(): Response {
         return try {
             val snapshot = gamesCollection.get().await()
-            val listGames = snapshot.toObjects(GameModel::class.java)
+            val listGames = snapshot.toObjects(Game::class.java)
 
             Response.Success(listGames)
         } catch (e: FirebaseFirestoreException) {

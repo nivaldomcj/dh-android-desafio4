@@ -2,7 +2,7 @@ package nivaldo.dh.exercise.firebase.auth.model
 
 import com.google.firebase.firestore.DocumentId
 
-data class UserModel(
+data class User(
     @DocumentId
     val uid: String? = "",
 

@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import nivaldo.dh.exercise.firebase.auth.model.User
-import nivaldo.dh.exercise.firebase.shared.constant.FirestoreConstants
+import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class AuthRepository {
@@ -17,7 +17,7 @@ class AuthRepository {
         Firebase.auth
     }
     private val usersCollection by lazy {
-        Firebase.firestore.collection(FirestoreConstants.COLLECTION_USERS)
+        Firebase.firestore.collection(FirebaseFirestoreConstants.COLLECTION_USERS)
     }
 
     private suspend fun createUserOnFirestore(userUid: String, userName: String): Response {

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentDetailGameBinding
 
@@ -21,7 +22,10 @@ class DetailGameFragment : Fragment() {
         binding.toolbarLayout.title = args.game.title
         binding.tvGameTitle.text = args.game.title
 
-        // TODO set image with Glide
+        Glide.with(this)
+            .load(args.game.imageStoragePath)
+            .centerCrop()
+            .into(binding.ivGameCover)
 
         binding.tvGameDescription.text = args.game.description
         binding.tvGameReleaseYear.text = getString(R.string.fmt_release_year, args.game.releaseYear)

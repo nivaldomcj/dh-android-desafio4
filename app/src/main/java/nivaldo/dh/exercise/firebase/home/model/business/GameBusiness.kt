@@ -9,7 +9,7 @@ class GameBusiness {
         GameRepository()
     }
 
-    suspend fun getGamesList() : Response {
+    suspend fun getGamesList(): Response {
         return gameRepository.getGamesList()
     }
 

@@ -1,8 +1,11 @@
 package nivaldo.dh.exercise.firebase.home.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.ItemGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 
@@ -33,7 +36,11 @@ class GameAdapter(
             tvGameTitle.text = game.title
             tvGameReleaseYear.text = game.releaseYear.toString()
 
-            // TODO chamar glide com a imagem vinda do storage
+            Glide.with(itemView.context)
+                .load(game.imageStoragePath)
+                .centerCrop()
+                .placeholder(R.drawable.layer_img_loading)
+                .into(ivGameImage)
 
             itemView.setOnClickListener {
                 onGameClicked(game)

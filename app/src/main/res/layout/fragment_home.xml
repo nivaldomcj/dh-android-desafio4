@@ -68,7 +68,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/pb_loading_games"
+        android:id="@+id/pb_loading_games_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Games.ProgressBar.Grey"
@@ -77,8 +77,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_search_bar" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_placeholder_empty_games"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/games_list_empty"
+        android:textColor="@color/ship_cove"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_search_bar" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_games"
+        android:id="@+id/rv_home_games_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="4dp"

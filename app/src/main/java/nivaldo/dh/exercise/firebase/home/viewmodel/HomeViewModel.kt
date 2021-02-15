@@ -25,9 +25,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         HomeBusiness()
     }
 
-    fun getGamesList() {
+    fun getUserGamesList() {
         viewModelScope.launch {
-            when (val response = gameBusiness.getGamesList()) {
+            when (val response = gameBusiness.getUserGamesList()) {
                 is Response.Success -> {
                     val gamesList = (response.data as? MutableList<*>)
                     onGetGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())

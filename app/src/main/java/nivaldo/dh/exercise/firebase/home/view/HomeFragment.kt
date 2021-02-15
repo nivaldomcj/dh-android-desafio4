@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
-import nivaldo.dh.exercise.firebase.home.view.adapter.HomeAdapter
+import nivaldo.dh.exercise.firebase.home.view.adapter.HomeGamesListAdapter
 import nivaldo.dh.exercise.firebase.home.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -19,14 +19,17 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
-    private fun loadGamesRecyclerView(gamesList: List<Game>) {
-        // hide loading
-        binding.pbLoadingGames.visibility = View.GONE
+    private fun setupHomeGamesListRecyclerView(gamesList: List<Game>) {
+        binding.pbLoadingGamesList.visibility = View.GONE
 
-        // show list of games
-        binding.rvGames.apply {
+        if (gamesList.isEmpty()) {
+            binding.tvPlaceholderEmptyGames.visibility = View.VISIBLE
+            return
+        }
+
+        binding.rvHomeGamesList.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = HomeAdapter(gamesList) {
+            adapter = HomeGamesListAdapter(gamesList) {
                 val action = HomeFragmentDirections
                     .actionHomeFragmentToDetailGameFragment(it)
 
@@ -37,7 +40,7 @@ class HomeFragment : Fragment() {
 
     private fun initObservables() {
         homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
-            loadGamesRecyclerView(it)
+            setupHomeGamesListRecyclerView(it)
         })
         homeViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -80,7 +83,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        homeViewModel.getGamesList()
+        homeViewModel.getUserGamesList()
 
         initComponents()
         initObservables()

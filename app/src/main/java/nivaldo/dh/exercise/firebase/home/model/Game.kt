@@ -10,8 +10,7 @@ data class Game(
     @DocumentId
     val uid: String? = "",
 
-    @Exclude
-    var imageStorageUrl: String? = "",
+    val userUid: String? = "",
 
     val imagePath: String? = "",
 
@@ -20,4 +19,7 @@ data class Game(
     val releaseYear: Int? = 0,
 
     val description: String? = "",
+
+    @Exclude
+    var mImageStoragePath: String? = "",
 ) : Parcelable

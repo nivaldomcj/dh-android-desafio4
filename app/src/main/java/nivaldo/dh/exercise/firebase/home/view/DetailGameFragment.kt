@@ -26,7 +26,7 @@ class DetailGameFragment : Fragment() {
         binding.tvGameTitle.text = args.game.title
 
         Glide.with(this)
-            .load(args.game.imageStorageUrl)
+            .load(args.game.mImageStoragePath)
             .centerCrop()
             .into(binding.ivGameCover)
 

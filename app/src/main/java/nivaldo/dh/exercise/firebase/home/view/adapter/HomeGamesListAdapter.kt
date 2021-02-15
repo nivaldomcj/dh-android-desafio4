@@ -8,18 +8,18 @@ import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.ItemGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 
-class HomeAdapter(
+class HomeGamesListAdapter(
     private val gamesList: List<Game>,
     private val onGameClicked: (Game) -> Unit
-) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+) : RecyclerView.Adapter<HomeGamesListAdapter.HomeGamesListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeGamesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemGameBinding.inflate(layoutInflater, parent, false)
-        return HomeViewHolder(binding)
+        return HomeGamesListViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeGamesListViewHolder, position: Int) {
         holder.bind(gamesList[position], onGameClicked)
     }
 
@@ -27,7 +27,7 @@ class HomeAdapter(
         return gamesList.size
     }
 
-    class HomeViewHolder(
+    class HomeGamesListViewHolder(
         private val binding: ItemGameBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -36,9 +36,9 @@ class HomeAdapter(
             tvGameReleaseYear.text = game.releaseYear.toString()
 
             Glide.with(itemView.context)
-                .load(game.imageStorageUrl)
+                .load(game.mImageStoragePath)
                 .centerCrop()
-                .placeholder(R.drawable.layer_img_loading)
+                .error(R.drawable.layer_ic_broken)
                 .into(ivGameImage)
 
             itemView.setOnClickListener {

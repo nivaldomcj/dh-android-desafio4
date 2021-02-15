@@ -1,6 +1,7 @@
 package nivaldo.dh.exercise.firebase.home.model.repository
 
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -12,29 +13,44 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class GameRepository {
 
-    private val gamesCollection by lazy {
-        Firebase.firestore.collection(FirebaseFirestoreConstants.COLLECTION_GAMES)
+    private val firebaseAuth by lazy {
+        Firebase.auth
     }
-    private val gamesStorageRef by lazy {
-        Firebase.storage.reference.child(FirebaseStorageConstants.REFERENCE_GAME_IMAGES)
+    private val firebaseFirestore by lazy {
+        Firebase.firestore
+    }
+    private val firebaseStorage by lazy {
+        Firebase.storage
     }
 
-    suspend fun getGamesList(): Response {
-        val gamesList: MutableList<Game?> = mutableListOf()
+    suspend fun getGameImageStorageUrl(imagePath: String): Response {
+        return try {
+            val url = firebaseStorage
+                .reference
+                .child(FirebaseStorageConstants.REFERENCE_GAME_IMAGES_FOLDER)
+                .child(imagePath)
+                .downloadUrl
+                .await()
+                .toString()
+
+            Response.Success(url)
+        } catch (e: FirebaseException) {
+            Response.Failure(e.localizedMessage)
+        }
+    }
+
+    suspend fun getUserGamesList(): Response {
+        var gamesList: MutableList<Game?> = mutableListOf()
 
         return try {
-            val snapshot = gamesCollection.get().await()
+            firebaseAuth.currentUser?.let { currentUser ->
+                val query = firebaseFirestore
+                    .collection(FirebaseFirestoreConstants.Games.COLLECTION_NAME)
+                    .whereEqualTo(FirebaseFirestoreConstants.Games.FIELD_USER_UID, currentUser.uid)
+                    .get()
+                    .await()
 
-            snapshot.documents.forEach { document ->
-                val game = document.toObject(Game::class.java)
-
-                game?.imagePath?.let {
-                    // we need to get the URL tokenized to the image from Firebase Storage
-                    // tokenized means to get image path with auth token of current user
-                    game.imageStorageUrl = gamesStorageRef.child(it).downloadUrl.await().toString()
-                }
-
-                gamesList.add(game)
+                gamesList = query.toObjects(Game::class.java)
             }
 
             Response.Success(gamesList)

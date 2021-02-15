@@ -1,6 +1,8 @@
 package nivaldo.dh.exercise.firebase.home.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +16,17 @@ import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.view.adapter.HomeGamesListAdapter
 import nivaldo.dh.exercise.firebase.home.viewmodel.HomeViewModel
+import java.util.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
-    private fun initSearchBar() {
-        binding.searchBar.setSpeechMode(true)
+    private var completeUserGamesList: MutableList<Game> = mutableListOf()
+    private var filteredUserGamesList: MutableList<Game> = mutableListOf()
 
+    private fun initSearchBar() {
         // menu
         binding.searchBar.inflateMenu(R.menu.search_bar_menu)
         binding.searchBar.menu.setOnMenuItemClickListener {
@@ -34,30 +38,37 @@ class HomeFragment : Fragment() {
 
             return@setOnMenuItemClickListener false
         }
-    }
 
-    private fun setupHomeGamesListRecyclerView(gamesList: List<Game>) {
-        binding.pbLoadingGamesList.visibility = View.GONE
+        // search
+        binding.searchBar.addTextChangeListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-        if (gamesList.isEmpty()) {
-            binding.tvPlaceholderEmptyGames.visibility = View.VISIBLE
-            return
-        }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val text: String = s.toString().toLowerCase(Locale.ROOT)
+                var list: List<Game> = completeUserGamesList
 
-        binding.rvHomeGamesList.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = HomeGamesListAdapter(gamesList) {
-                val action = HomeFragmentDirections
-                    .actionHomeFragmentToDetailGameFragment(it)
+                filteredUserGamesList.clear()
 
-                findNavController().navigate(action)
+                if (count > 0)
+                    list = list.filter { it.title.toLowerCase(Locale.ROOT).startsWith(text) }
+
+                filteredUserGamesList.addAll(list)
+
+                binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
             }
-        }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun initObservables() {
-        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
-            setupHomeGamesListRecyclerView(it)
+        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, { gamesList ->
+            // notice that user games at initialization will have all data
+            // it is not filtered yet, but it can be (so we keep a reference to full list)
+            completeUserGamesList = gamesList.toMutableList()
+            filteredUserGamesList.addAll(completeUserGamesList)
+
+            binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
         })
         homeViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -75,8 +86,22 @@ class HomeFragment : Fragment() {
     private fun initComponents() {
         binding.fabCreateGame.setOnClickListener {
             // since a new game will be created, at the moment it does not exist (null)
-            val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
-            findNavController().navigate(action)
+            //val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
+            //findNavController().navigate(action)
+
+            val list2 =
+
+                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.rvHomeGamesList.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = HomeGamesListAdapter(filteredUserGamesList) {
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToDetailGameFragment(it)
+
+                findNavController().navigate(action)
+            }
         }
     }
 
@@ -96,7 +121,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         homeViewModel.getUserGamesList()
 
         initComponents()

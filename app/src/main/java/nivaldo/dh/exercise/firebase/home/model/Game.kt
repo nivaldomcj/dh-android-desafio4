@@ -14,7 +14,7 @@ data class Game(
 
     val imagePath: String? = "",
 
-    val title: String? = "",
+    val title: String = "",
 
     val releaseYear: Int? = 0,
 

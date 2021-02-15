@@ -9,7 +9,7 @@ import nivaldo.dh.exercise.firebase.databinding.ItemGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 
 class HomeGamesListAdapter(
-    private val gamesList: List<Game>,
+    private val gamesList: MutableList<Game>,
     private val onGameClicked: (Game) -> Unit
 ) : RecyclerView.Adapter<HomeGamesListAdapter.HomeGamesListViewHolder>() {
 

@@ -26,4 +26,5 @@
     <string name="release_year">Release year</string>
     <string name="description">Description</string>
     <string name="games_list_empty">(games list empty)</string>
+    <string name="sample_text">Sample text</string>
 </resources>

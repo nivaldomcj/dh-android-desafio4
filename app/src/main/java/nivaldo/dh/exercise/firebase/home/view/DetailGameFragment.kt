@@ -15,15 +15,18 @@ import nivaldo.dh.exercise.firebase.databinding.FragmentDetailGameBinding
 
 class DetailGameFragment : Fragment() {
 
+    // TODO DetailGame to GameDetail
+
     private lateinit var binding: FragmentDetailGameBinding
     private val args: DetailGameFragmentArgs by navArgs()
 
     private fun loadGameDetail() {
+        // TODO mudar pra args.game.let{}
         binding.toolbarLayout.title = args.game.title
         binding.tvGameTitle.text = args.game.title
 
         Glide.with(this)
-            .load(args.game.imageStoragePath)
+            .load(args.game.imageStorageUrl)
             .centerCrop()
             .into(binding.ivGameCover)
 

@@ -1,6 +1,5 @@
 package nivaldo.dh.exercise.firebase.home.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +36,7 @@ class GameAdapter(
             tvGameReleaseYear.text = game.releaseYear.toString()
 
             Glide.with(itemView.context)
-                .load(game.imageStoragePath)
+                .load(game.imageStorageUrl)
                 .centerCrop()
                 .placeholder(R.drawable.layer_img_loading)
                 .into(ivGameImage)

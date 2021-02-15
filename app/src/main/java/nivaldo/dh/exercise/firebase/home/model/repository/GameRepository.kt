@@ -31,7 +31,7 @@ class GameRepository {
                 game?.imagePath?.let {
                     // we need to get the URL tokenized to the image from Firebase Storage
                     // tokenized means to get image path with auth token of current user
-                    game.imageStoragePath = gamesStorageRef.child(it).downloadUrl.await().toString()
+                    game.imageStorageUrl = gamesStorageRef.child(it).downloadUrl.await().toString()
                 }
 
                 gamesList.add(game)

@@ -11,7 +11,7 @@ data class Game(
     val uid: String? = "",
 
     @Exclude
-    var imageStoragePath: String? = "",
+    var imageStorageUrl: String? = "",
 
     val imagePath: String? = "",
 

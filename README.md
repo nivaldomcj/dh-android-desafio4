@@ -14,11 +14,10 @@ Exercício _Desafio Firebase_ (Desafio 4) desenvolvido no Curso Santander Coders
 
 ### Desenvolvimento
 - Telas iniciais (splash, login e cadastro)
-- Tela de home que lista todos os games cadastrados
+- Tela de home que lista todos os jogos cadastrados
 - Tela de detalhe que mostra o detalhe de cada jogo
-- Tela de cadastro do game
-- Tela de edição que permite editar um jogo cadastrado
-- Fotos do game
+- Tela de cadastro/edição que permite cadastrar/editar um jogo
+- Fotos do jogo
 - Organização e estrutura de código
 
 ### Organização

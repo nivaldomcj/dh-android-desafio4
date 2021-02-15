@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.view.adapter.HomeGamesListAdapter
@@ -18,6 +19,22 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
+
+    private fun initSearchBar() {
+        binding.searchBar.setSpeechMode(true)
+
+        // menu
+        binding.searchBar.inflateMenu(R.menu.search_bar_menu)
+        binding.searchBar.menu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_sign_out -> {
+                    homeViewModel.signOutUser()
+                }
+            }
+
+            return@setOnMenuItemClickListener false
+        }
+    }
 
     private fun setupHomeGamesListRecyclerView(gamesList: List<Game>) {
         binding.pbLoadingGamesList.visibility = View.GONE
@@ -61,9 +78,6 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
             findNavController().navigate(action)
         }
-        binding.btnSignOut.setOnClickListener {
-            homeViewModel.signOutUser()
-        }
     }
 
     override fun onCreateView(
@@ -87,5 +101,6 @@ class HomeFragment : Fragment() {
 
         initComponents()
         initObservables()
+        initSearchBar()
     }
 }

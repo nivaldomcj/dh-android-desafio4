@@ -1,16 +1,14 @@
 package nivaldo.dh.exercise.firebase.auth.model.business
 
-import nivaldo.dh.exercise.firebase.auth.model.Splash
 import nivaldo.dh.exercise.firebase.auth.model.repository.SplashRepository
+import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class SplashBusiness {
 
-    private val repository by lazy {
-        SplashRepository()
-    }
+    private val repository by lazy { SplashRepository() }
 
-    fun getSplashResult(): Splash {
-        return repository.getSplashResult()
+    fun isUserSignedIn(): Response {
+        return repository.isUserSignedIn()
     }
 
 }

@@ -1,12 +1,12 @@
 package nivaldo.dh.exercise.firebase.auth.model.business
 
-import nivaldo.dh.exercise.firebase.auth.model.repository.AuthRepository
+import nivaldo.dh.exercise.firebase.auth.model.repository.RegisterRepository
 import nivaldo.dh.exercise.firebase.shared.data.Response
 import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
-class AuthBusiness {
+class RegisterBusiness {
 
-    private val repository by lazy { AuthRepository() }
+    private val repository by lazy { RegisterRepository() }
 
     suspend fun registerUser(
         name: String,

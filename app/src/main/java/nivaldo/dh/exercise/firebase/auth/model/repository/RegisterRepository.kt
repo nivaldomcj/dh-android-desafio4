@@ -12,7 +12,7 @@ import nivaldo.dh.exercise.firebase.auth.model.User
 import nivaldo.dh.exercise.firebase.shared.constant.FirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
-class AuthRepository {
+class RegisterRepository {
 
     private val firebaseAuth by lazy { Firebase.auth }
     private val firebaseFirestore by lazy { Firebase.firestore }

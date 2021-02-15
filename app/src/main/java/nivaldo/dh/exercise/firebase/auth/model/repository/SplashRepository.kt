@@ -1,11 +1,24 @@
 package nivaldo.dh.exercise.firebase.auth.model.repository
 
-import nivaldo.dh.exercise.firebase.auth.model.Splash
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class SplashRepository {
 
-    fun getSplashResult(): Splash {
-        return Splash()
+    private val firebaseAuth by lazy { Firebase.auth }
+
+    fun isUserSignedIn(): Response {
+        return try {
+            firebaseAuth.currentUser?.uid?.let {
+                Response.Success(true)
+            } ?: run {
+                Response.Success(false)
+            }
+        } catch (e: FirebaseAuthException) {
+            Response.Failure(e.localizedMessage)
+        }
     }
 
 }

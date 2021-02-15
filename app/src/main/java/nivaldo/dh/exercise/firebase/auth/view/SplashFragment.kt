@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,11 +16,19 @@ class SplashFragment : Fragment() {
     private lateinit var splashViewModel: SplashViewModel
     private lateinit var binding: FragmentSplashBinding
 
-    private fun initSplashScreen() {
-        splashViewModel.getSplashScreen()
-        splashViewModel.onSplashResult.observe(viewLifecycleOwner, {
-            val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
-            findNavController().navigate(action)
+    private fun initObservables() {
+        splashViewModel.isUserSignedIn()
+        splashViewModel.onIsUserSignedInResultSuccess.observe(viewLifecycleOwner, { isSignedIn ->
+            if (isSignedIn) {
+                val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
+                findNavController().navigate(action)
+            } else {
+                val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
+                findNavController().navigate(action)
+            }
+        })
+        splashViewModel.onIsUserSignedInResultFailure.observe(viewLifecycleOwner, { error ->
+            Toast.makeText(context, "Error: $error", Toast.LENGTH_SHORT).show()
         })
     }
 
@@ -39,7 +48,8 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         splashViewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
-        initSplashScreen()
+
+        initObservables()
     }
 
 }

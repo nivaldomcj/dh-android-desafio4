@@ -17,7 +17,7 @@ class LoginFragment : Fragment() {
 
     private fun initComponents() {
         binding.btnSignIn.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToListGamesFragment()
+            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
             findNavController().navigate(action)
         }
 

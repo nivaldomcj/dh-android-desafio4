@@ -9,17 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import nivaldo.dh.exercise.firebase.databinding.FragmentListGamesBinding
+import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.view.adapter.GameAdapter
 import nivaldo.dh.exercise.firebase.home.viewmodel.ListGamesViewModel
 
-class ListGamesFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     private lateinit var listGamesViewModel: ListGamesViewModel
-    private lateinit var binding: FragmentListGamesBinding
+    private lateinit var binding: FragmentHomeBinding
 
-    private fun loadListGamesRecyclerView(gamesList: List<Game>) {
+    private fun loadGamesRecyclerView(gamesList: List<Game>) {
         // hide loading
         binding.pbLoadingGames.visibility = View.GONE
 
@@ -27,8 +27,8 @@ class ListGamesFragment : Fragment() {
         binding.rvGames.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = GameAdapter(gamesList) {
-                val action = ListGamesFragmentDirections
-                    .actionListGamesFragmentToDetailGameFragment(it)
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToDetailGameFragment(it)
 
                 findNavController().navigate(action)
             }
@@ -38,7 +38,7 @@ class ListGamesFragment : Fragment() {
     private fun initObservables() {
         listGamesViewModel.getGamesList()
         listGamesViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
-            loadListGamesRecyclerView(it)
+            loadGamesRecyclerView(it)
         })
         listGamesViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -47,7 +47,7 @@ class ListGamesFragment : Fragment() {
 
     private fun initComponents() {
         binding.fabCreateGame.setOnClickListener {
-            // TODO chamar CreateGame
+            // TODO
         }
     }
 
@@ -56,7 +56,7 @@ class ListGamesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentListGamesBinding.inflate(layoutInflater, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

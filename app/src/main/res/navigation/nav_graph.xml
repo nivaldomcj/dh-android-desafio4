@@ -34,8 +34,8 @@
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
         <action
-            android:id="@+id/action_login_fragment_to_list_games_fragment"
-            app:destination="@id/list_games_fragment"
+            android:id="@+id/action_login_fragment_to_home_fragment"
+            app:destination="@id/home_fragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
@@ -51,24 +51,24 @@
         tools:layout="@layout/fragment_register" />
 
     <fragment
-        android:id="@+id/list_games_fragment"
-        android:name="nivaldo.dh.exercise.firebase.home.view.ListGamesFragment"
+        android:id="@+id/home_fragment"
+        android:name="nivaldo.dh.exercise.firebase.home.view.HomeFragment"
         android:label="@string/games"
-        tools:layout="@layout/fragment_list_games" >
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_list_games_fragment_to_detail_game_fragment"
+            android:id="@+id/action_home_fragment_to_detail_game_fragment"
+            app:destination="@id/detail_game_fragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit"
-            app:destination="@id/detail_game_fragment" />
+            app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
 
     <fragment
         android:id="@+id/detail_game_fragment"
         android:name="nivaldo.dh.exercise.firebase.home.view.DetailGameFragment"
         android:label="fragment_detail_game"
-        tools:layout="@layout/fragment_detail_game" >
+        tools:layout="@layout/fragment_detail_game">
         <argument
             android:name="game"
             app:argType="nivaldo.dh.exercise.firebase.home.model.Game" />

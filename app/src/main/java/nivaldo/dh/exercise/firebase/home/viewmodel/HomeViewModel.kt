@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.model.business.GameBusiness
+import nivaldo.dh.exercise.firebase.home.model.business.HomeBusiness
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,8 +15,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val onGetGamesListSuccess: MutableLiveData<List<Game>> = MutableLiveData()
     val onGetGamesListFailure: MutableLiveData<String> = MutableLiveData()
 
+    val onSignOutUserSuccess: MutableLiveData<Any> = MutableLiveData()
+    val onSignOutUserFailure: MutableLiveData<String> = MutableLiveData()
+
     private val gameBusiness by lazy {
         GameBusiness()
+    }
+    private val homeBusiness by lazy {
+        HomeBusiness()
     }
 
     fun getGamesList() {
@@ -28,6 +35,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 is Response.Failure -> {
                     onGetGamesListFailure.postValue(response.error)
                 }
+            }
+        }
+    }
+
+    fun signOutUser() {
+        when (val response = homeBusiness.signOutUser()) {
+            is Response.Success -> {
+                onSignOutUserSuccess.postValue(response.data)
+            }
+            is Response.Failure -> {
+                onSignOutUserFailure.postValue(response.error)
             }
         }
     }

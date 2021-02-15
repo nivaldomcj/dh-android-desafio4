@@ -17,6 +17,42 @@ class LoginFragment : Fragment() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
 
+    private fun initObservables() {
+        loginViewModel.onSignInUserSuccess.observe(viewLifecycleOwner, { userEmail ->
+            if (binding.cbRemember.isChecked)
+                loginViewModel.saveLoginCredentials(userEmail)
+            else
+                loginViewModel.deleteSavedLoginCredentials()
+
+            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            findNavController().navigate(action)
+        })
+        loginViewModel.onSignInUserFailure.observe(viewLifecycleOwner, { error ->
+            Toast.makeText(context, "Error: $error", Toast.LENGTH_SHORT).show()
+        })
+
+        loginViewModel.onGetSavedLoginCredentialsSuccess.observe(viewLifecycleOwner, {
+            binding.etEmail.setText(it)
+        })
+        loginViewModel.onGetSavedLoginCredentialsFailure.observe(viewLifecycleOwner, {
+            Log.i("NMCJ", "getSavedLoginCredentials() [FAIL] Error: $it")
+        })
+
+        loginViewModel.onSaveLoginCredentialsSuccess.observe(viewLifecycleOwner, {
+            Log.d("NMCJ", "deleteSavedLoginCredentials() [OK] Success")
+        })
+        loginViewModel.onSaveLoginCredentialsFailure.observe(viewLifecycleOwner, {
+            Log.e("NMCJ", "saveLoginCredentials() [FAIL] Error: $it")
+        })
+
+        loginViewModel.onDeleteSavedLoginCredentialsSuccess.observe(viewLifecycleOwner, {
+            Log.d("NMCJ", "deleteSavedLoginCredentials() [OK] Success")
+        })
+        loginViewModel.onDeleteSavedLoginCredentialsFailure.observe(viewLifecycleOwner, {
+            Log.e("NMCJ", "deleteSavedLoginCredentials() [FAIL] Error: $it")
+        })
+    }
+
     private fun initComponents() {
         loginViewModel.getSavedLoginCredentials()
 

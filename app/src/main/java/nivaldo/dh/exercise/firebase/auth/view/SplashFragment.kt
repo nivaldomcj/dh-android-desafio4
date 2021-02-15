@@ -18,7 +18,7 @@ class SplashFragment : Fragment() {
 
     private fun initObservables() {
         splashViewModel.isUserSignedIn()
-        splashViewModel.onIsUserSignedInResultSuccess.observe(viewLifecycleOwner, { isSignedIn ->
+        splashViewModel.onIsUserSignedInSuccess.observe(viewLifecycleOwner, { isSignedIn ->
             if (isSignedIn) {
                 val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
                 findNavController().navigate(action)
@@ -27,7 +27,7 @@ class SplashFragment : Fragment() {
                 findNavController().navigate(action)
             }
         })
-        splashViewModel.onIsUserSignedInResultFailure.observe(viewLifecycleOwner, { error ->
+        splashViewModel.onIsUserSignedInFailure.observe(viewLifecycleOwner, { error ->
             Toast.makeText(context, "Error: $error", Toast.LENGTH_SHORT).show()
         })
     }

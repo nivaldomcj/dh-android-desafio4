@@ -17,12 +17,12 @@ class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
 
     private fun initObservables() {
-        registerViewModel.onRegisterUserResultSuccess.observe(viewLifecycleOwner, {
+        registerViewModel.onRegisterUserSuccess.observe(viewLifecycleOwner, {
             // splash sets a loading and moves user to next authorized screen
             val action = RegisterFragmentDirections.actionRegisterFragmentToSplashFragment()
             findNavController().navigate(action)
         })
-        registerViewModel.onRegisterUserResultFailure.observe(viewLifecycleOwner, {
+        registerViewModel.onRegisterUserFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
         })
     }

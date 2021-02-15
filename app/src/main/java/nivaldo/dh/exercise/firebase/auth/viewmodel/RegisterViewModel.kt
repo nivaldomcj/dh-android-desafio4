@@ -11,8 +11,8 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
 
     // firebase registration methods does not have return
-    val onRegisterUserResultSuccess: MutableLiveData<Any> = MutableLiveData()
-    val onRegisterUserResultFailure: MutableLiveData<String> = MutableLiveData()
+    val onRegisterUserSuccess: MutableLiveData<Any> = MutableLiveData()
+    val onRegisterUserFailure: MutableLiveData<String> = MutableLiveData()
 
     private val business by lazy {
         RegisterBusiness()
@@ -21,8 +21,12 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     fun registerUser(name: String, email: String, password: String, repeatPassword: String) {
         viewModelScope.launch {
             when (val response = business.registerUser(name, email, password, repeatPassword)) {
-                is Response.Success -> onRegisterUserResultSuccess.postValue(response.data)
-                is Response.Failure -> onRegisterUserResultFailure.postValue(response.error)
+                is Response.Success -> {
+                    onRegisterUserSuccess.postValue(response.data)
+                }
+                is Response.Failure -> {
+                    onRegisterUserFailure.postValue(response.error)
+                }
             }
         }
     }

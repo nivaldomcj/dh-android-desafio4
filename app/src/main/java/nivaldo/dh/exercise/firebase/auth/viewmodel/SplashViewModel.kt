@@ -10,8 +10,8 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
-    val onIsUserSignedInResultSuccess: MutableLiveData<Boolean> = MutableLiveData()
-    val onIsUserSignedInResultFailure: MutableLiveData<String> = MutableLiveData()
+    val onIsUserSignedInSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    val onIsUserSignedInFailure: MutableLiveData<String> = MutableLiveData()
 
     private val business by lazy {
         SplashBusiness()
@@ -21,10 +21,10 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             when (val response = business.isUserSignedIn()) {
                 is Response.Success -> {
-                    onIsUserSignedInResultSuccess.postValue(response.data as? Boolean)
+                    onIsUserSignedInSuccess.postValue(response.data as? Boolean)
                 }
                 is Response.Failure -> {
-                    onIsUserSignedInResultFailure.postValue(response.error)
+                    onIsUserSignedInFailure.postValue(response.error)
                 }
             }
         }

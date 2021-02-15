@@ -36,23 +36,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObservables() {
-        homeViewModel.getGamesList()
         homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
             loadGamesRecyclerView(it)
         })
         homeViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
+
+        homeViewModel.onSignOutUserSuccess.observe(viewLifecycleOwner, {
+            val action = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+            findNavController().navigate(action)
+        })
+        homeViewModel.onSignOutUserFailure.observe(viewLifecycleOwner, {
+            Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun initComponents() {
         binding.fabCreateGame.setOnClickListener {
-            // since a new game will be created, atm it does not exist (null)
+            // since a new game will be created, at the moment it does not exist (null)
             val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
             findNavController().navigate(action)
         }
         binding.btnSignOut.setOnClickListener {
-            // TODO
+            homeViewModel.signOutUser()
         }
     }
 
@@ -72,6 +79,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        homeViewModel.getGamesList()
 
         initComponents()
         initObservables()

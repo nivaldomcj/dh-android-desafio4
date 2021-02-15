@@ -13,7 +13,9 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
     val onIsUserSignedInResultSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val onIsUserSignedInResultFailure: MutableLiveData<String> = MutableLiveData()
 
-    private val business by lazy { SplashBusiness() }
+    private val business by lazy {
+        SplashBusiness()
+    }
 
     fun isUserSignedIn() {
         viewModelScope.launch {

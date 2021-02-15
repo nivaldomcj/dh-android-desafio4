@@ -6,7 +6,9 @@ import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
 class RegisterBusiness {
 
-    private val repository by lazy { RegisterRepository() }
+    private val repository by lazy {
+        RegisterRepository()
+    }
 
     suspend fun registerUser(
         name: String,

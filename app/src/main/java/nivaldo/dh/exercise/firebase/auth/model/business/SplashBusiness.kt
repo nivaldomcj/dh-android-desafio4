@@ -5,7 +5,9 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class SplashBusiness {
 
-    private val repository by lazy { SplashRepository() }
+    private val repository by lazy {
+        SplashRepository()
+    }
 
     fun isUserSignedIn(): Response {
         return repository.isUserSignedIn()

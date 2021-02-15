@@ -14,8 +14,12 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class RegisterRepository {
 
-    private val firebaseAuth by lazy { Firebase.auth }
-    private val firebaseFirestore by lazy { Firebase.firestore }
+    private val firebaseAuth by lazy {
+        Firebase.auth
+    }
+    private val firebaseFirestore by lazy {
+        Firebase.firestore
+    }
 
     private suspend fun registerUserOnFirestore(userUid: String, userName: String): Response {
         return try {

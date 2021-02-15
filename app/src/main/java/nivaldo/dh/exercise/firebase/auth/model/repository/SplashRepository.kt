@@ -7,7 +7,9 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class SplashRepository {
 
-    private val firebaseAuth by lazy { Firebase.auth }
+    private val firebaseAuth by lazy {
+        Firebase.auth
+    }
 
     fun isUserSignedIn(): Response {
         return try {

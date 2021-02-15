@@ -14,7 +14,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     val onRegisterUserResultSuccess: MutableLiveData<Any> = MutableLiveData()
     val onRegisterUserResultFailure: MutableLiveData<String> = MutableLiveData()
 
-    private val business by lazy { RegisterBusiness() }
+    private val business by lazy {
+        RegisterBusiness()
+    }
 
     fun registerUser(name: String, email: String, password: String, repeatPassword: String) {
         viewModelScope.launch {

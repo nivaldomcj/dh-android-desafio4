@@ -1,9 +1,11 @@
 package nivaldo.dh.exercise.firebase.auth.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,9 +18,13 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
 
     private fun initComponents() {
+        loginViewModel.getSavedLoginCredentials()
+
         binding.btnSignIn.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-            findNavController().navigate(action)
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            loginViewModel.signInUser(email, password)
         }
 
         binding.btnCreateAccount.setOnClickListener {
@@ -43,7 +49,9 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
         initComponents()
+        initObservables()
     }
 
 }

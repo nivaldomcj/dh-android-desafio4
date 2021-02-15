@@ -1,5 +1,6 @@
 package nivaldo.dh.exercise.firebase.auth.model.repository
 
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -8,42 +9,57 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import nivaldo.dh.exercise.firebase.auth.model.User
-import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
+import nivaldo.dh.exercise.firebase.shared.constant.FirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class AuthRepository {
 
-    private val authentication by lazy {
-        Firebase.auth
-    }
-    private val usersCollection by lazy {
-        Firebase.firestore.collection(FirebaseFirestoreConstants.COLLECTION_USERS)
-    }
+    private val firebaseAuth by lazy { Firebase.auth }
+    private val firebaseFirestore by lazy { Firebase.firestore }
 
-    private suspend fun createUserOnFirestore(userUid: String, userName: String): Response {
+    private suspend fun registerUserOnFirestore(userUid: String, userName: String): Response {
         return try {
-            val newUser = User(userUid, userName)
-
-            usersCollection.document(userUid)
-                .set(newUser, SetOptions.merge())
+            // this returns nothing
+            firebaseFirestore
+                .collection(FirestoreConstants.Users.COLLECTION_NAME)
+                .document(userUid)
+                .set(User(userUid, userName), SetOptions.merge())
                 .await()
 
-            Response.Success(newUser)
+            Response.Success(true)
         } catch (e: FirebaseFirestoreException) {
+            Response.Failure(e.localizedMessage)
+        }
+    }
+
+    private suspend fun registerUserOnAuthentication(email: String, password: String): Response {
+        return try {
+            // this returns nothing
+            firebaseAuth
+                .createUserWithEmailAndPassword(email, password)
+                .await()
+
+            Response.Success(true)
+        } catch (e: FirebaseAuthException) {
             Response.Failure(e.localizedMessage)
         }
     }
 
     suspend fun registerUser(name: String, email: String, password: String): Response {
         return try {
-            val result = authentication.createUserWithEmailAndPassword(email, password).await()
-
-            result.user?.let {
-                createUserOnFirestore(it.uid, name)
-            } ?: run {
-                Response.Failure("An error occurred while registering user. Try again later")
+            when (val result = registerUserOnAuthentication(email, password)) {
+                is Response.Success -> {
+                    firebaseAuth.currentUser?.let {
+                        registerUserOnFirestore(it.uid, name)
+                    } ?: run {
+                        Response.Failure("An error occurred. Try again later")
+                    }
+                }
+                is Response.Failure -> {
+                    result
+                }
             }
-        } catch (e: FirebaseAuthException) {
+        } catch (e: FirebaseException) {
             Response.Failure(e.localizedMessage)
         }
     }

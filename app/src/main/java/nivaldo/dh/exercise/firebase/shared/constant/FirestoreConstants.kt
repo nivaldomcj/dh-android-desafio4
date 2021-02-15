@@ -1,8 +1,11 @@
 package nivaldo.dh.exercise.firebase.shared.constant
 
-object FirebaseFirestoreConstants {
+object FirestoreConstants {
 
-    const val COLLECTION_USERS = "Users"
+    object Users {
+        const val COLLECTION_NAME = "Users"
+    }
+
     const val COLLECTION_GAMES = "Games"
 
 }

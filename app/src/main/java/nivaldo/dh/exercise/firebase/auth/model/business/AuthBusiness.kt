@@ -6,9 +6,7 @@ import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
 class AuthBusiness {
 
-    private val authRepository by lazy {
-        AuthRepository()
-    }
+    private val repository by lazy { AuthRepository() }
 
     suspend fun registerUser(
         name: String,
@@ -23,7 +21,7 @@ class AuthBusiness {
         if (email.isBlank()) {
             return Response.Failure("E-mail field is required")
         }
-        if (email.isValidEmailAddress()) {
+        if (!email.isValidEmailAddress()) {
             return Response.Failure("Email is not valid")
         }
 
@@ -37,7 +35,7 @@ class AuthBusiness {
             return Response.Failure("Password and Repeat Password does not match")
         }
 
-        return authRepository.registerUser(name, email, password)
+        return repository.registerUser(name.trim(), email.trim(), password)
     }
 
 }

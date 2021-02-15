@@ -53,6 +53,8 @@
             android:foreground="?selectableItemBackground"
             android:tint="@color/eclipse">
 
+            <!-- prototype originally didn't had this button -->
+            <!-- but without it isn't practical to test Firebase Authentication -->
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,8 +81,8 @@
         android:id="@+id/rv_games"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

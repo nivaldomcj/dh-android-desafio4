@@ -8,18 +8,18 @@ import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.ItemGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 
-class GameAdapter(
+class HomeAdapter(
     private val gamesList: List<Game>,
     private val onGameClicked: (Game) -> Unit
-) : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
+) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemGameBinding.inflate(layoutInflater, parent, false)
-        return GameViewHolder(binding)
+        return HomeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bind(gamesList[position], onGameClicked)
     }
 
@@ -27,7 +27,7 @@ class GameAdapter(
         return gamesList.size
     }
 
-    class GameViewHolder(
+    class HomeViewHolder(
         private val binding: ItemGameBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 

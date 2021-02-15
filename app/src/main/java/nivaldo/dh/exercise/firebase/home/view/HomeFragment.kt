@@ -11,12 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
-import nivaldo.dh.exercise.firebase.home.view.adapter.GameAdapter
-import nivaldo.dh.exercise.firebase.home.viewmodel.ListGamesViewModel
+import nivaldo.dh.exercise.firebase.home.view.adapter.HomeAdapter
+import nivaldo.dh.exercise.firebase.home.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
-    private lateinit var listGamesViewModel: ListGamesViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
     private fun loadGamesRecyclerView(gamesList: List<Game>) {
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         // show list of games
         binding.rvGames.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = GameAdapter(gamesList) {
+            adapter = HomeAdapter(gamesList) {
                 val action = HomeFragmentDirections
                     .actionHomeFragmentToDetailGameFragment(it)
 
@@ -36,18 +36,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObservables() {
-        listGamesViewModel.getGamesList()
-        listGamesViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
+        homeViewModel.getGamesList()
+        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
             loadGamesRecyclerView(it)
         })
-        listGamesViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
+        homeViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
     }
 
     private fun initComponents() {
         binding.fabCreateGame.setOnClickListener {
-            // TODO
+            // since a new game will be created, atm it does not exist (null)
+            val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
+            findNavController().navigate(action)
         }
         binding.btnSignOut.setOnClickListener {
             // TODO
@@ -69,7 +71,7 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        listGamesViewModel = ViewModelProvider(this).get(ListGamesViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         initComponents()
         initObservables()

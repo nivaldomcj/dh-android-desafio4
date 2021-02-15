@@ -22,4 +22,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_game">Edit game</string>
     <string name="fmt_release_year">Release year: %1$d</string>
+    <string name="save_game">Save game</string>
+    <string name="release_year">Release year</string>
+    <string name="description">Description</string>
 </resources>

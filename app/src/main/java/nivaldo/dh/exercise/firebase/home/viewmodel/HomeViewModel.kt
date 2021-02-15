@@ -9,7 +9,7 @@ import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.model.business.GameBusiness
 import nivaldo.dh.exercise.firebase.shared.data.Response
 
-class ListGamesViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     val onGetGamesListSuccess: MutableLiveData<List<Game>> = MutableLiveData()
     val onGetGamesListFailure: MutableLiveData<String> = MutableLiveData()

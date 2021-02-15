@@ -7,39 +7,85 @@
     android:background="@color/gainsboro"
     tools:context=".home.view.HomeFragment">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layout_search_bar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintBottom_toTopOf="@id/rv_games"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/layout_sign_out"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mt_maxSuggestionsCount="10"
-        app:mt_placeholder="@string/search_games"
-        app:mt_speechMode="true" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="@string/search_games"
+            app:mt_speechMode="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_search_bar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- simulates a button with shape/appearance of MaterialSearchBar -->
+        <!-- ImageButton couldn't fit and Button has strange padding -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_sign_out"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            android:tint="@color/eclipse">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/sign_out"
+                android:padding="12dp"
+                android:src="@drawable/ic_sign_out"
+                app:tint="@color/eclipse" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_loading_games"
-        android:theme="@style/Games.ProgressBar.Grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/Games.ProgressBar.Grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar" />
+        app:layout_constraintTop_toBottomOf="@id/layout_search_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_games"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="4dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintTop_toBottomOf="@id/layout_search_bar"
         tools:itemCount="10"
         tools:listitem="@layout/item_game" />
 

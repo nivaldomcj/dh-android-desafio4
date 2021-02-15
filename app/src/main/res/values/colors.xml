@@ -21,4 +21,7 @@
     <color name="ship_cove">#8492A6</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="gainsboro">#DDDDDD</color>
+
+    <!-- other colors -->
+    <color name="eclipse">#393939</color>
 </resources>

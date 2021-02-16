@@ -30,8 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
-    private var completeUserGamesList: MutableList<Game> = mutableListOf()
-    private var filteredUserGamesList: MutableList<Game> = mutableListOf()
+    private var userGamesList: MutableList<Game> = mutableListOf()
 
     private fun handleSpeechRecognizerResult(result: ArrayList<String>?) {
         result?.let {
@@ -48,24 +47,6 @@ class HomeFragment : Fragment() {
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
 
         startActivityForResult(intent, RC_SPEECH_INPUT)
-    }
-
-    private fun filterUserGamesList(searchText: String) {
-        var list: List<Game> = completeUserGamesList
-
-        filteredUserGamesList.apply {
-            clear()
-
-            if (searchText.isNotEmpty()) {
-                list = list.filter {
-                    it.title.toLowerCase(Locale.ROOT).startsWith(searchText)
-                }
-            }
-
-            addAll(list)
-        }
-
-        binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
     }
 
     private fun initSearchBar() {
@@ -85,7 +66,11 @@ class HomeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filterUserGamesList(s.toString().toLowerCase(Locale.ROOT))
+                if (count > 0) {
+                    homeViewModel.filterUserGamesList(s.toString())
+                } else {
+                    homeViewModel.getUserGamesList()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -111,17 +96,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObservables() {
-        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
-            // notice that user games at initialization will have all data
-            // it is not filtered yet, but it can be (so we keep a reference to full list)
-            completeUserGamesList = it.toMutableList()
+        homeViewModel.onFetchUserGamesListSuccess.observe(viewLifecycleOwner, {
+            userGamesList.clear()
+            userGamesList.addAll(it)
 
-            filteredUserGamesList.clear()
-            filteredUserGamesList.addAll(completeUserGamesList)
-
-            binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
+            binding.rvUserGamesList.adapter?.notifyDataSetChanged()
         })
-        homeViewModel.onGetGamesListFailure.observe(viewLifecycleOwner, {
+        homeViewModel.onFetchUserGamesListFailure.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
 
@@ -141,9 +122,9 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.rvHomeGamesList.apply {
+        binding.rvUserGamesList.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = HomeGamesListAdapter(filteredUserGamesList) {
+            adapter = HomeGamesListAdapter(userGamesList) {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailGameFragment(it)
                 findNavController().navigate(action)
             }
@@ -176,13 +157,9 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when (requestCode) {
-            RC_SPEECH_INPUT -> {
-                data?.let {
-                    val result = it.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    handleSpeechRecognizerResult(result)
-                }
-            }
+        if (requestCode == RC_SPEECH_INPUT && data != null) {
+            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            handleSpeechRecognizerResult(result)
         }
     }
 }

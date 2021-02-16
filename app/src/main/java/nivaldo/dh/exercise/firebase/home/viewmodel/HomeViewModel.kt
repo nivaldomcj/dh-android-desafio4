@@ -12,8 +12,8 @@ import nivaldo.dh.exercise.firebase.shared.data.Response
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    val onGetGamesListSuccess: MutableLiveData<List<Game>> = MutableLiveData()
-    val onGetGamesListFailure: MutableLiveData<String> = MutableLiveData()
+    val onFetchUserGamesListSuccess: MutableLiveData<List<Game>> = MutableLiveData()
+    val onFetchUserGamesListFailure: MutableLiveData<String> = MutableLiveData()
 
     val onSignOutUserSuccess: MutableLiveData<Any> = MutableLiveData()
     val onSignOutUserFailure: MutableLiveData<String> = MutableLiveData()
@@ -30,10 +30,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             when (val response = gameBusiness.getUserGamesList()) {
                 is Response.Success -> {
                     val gamesList = (response.data as? MutableList<*>)
-                    onGetGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())
+                    onFetchUserGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())
                 }
                 is Response.Failure -> {
-                    onGetGamesListFailure.postValue(response.error)
+                    onFetchUserGamesListFailure.postValue(response.error)
+                }
+            }
+        }
+    }
+
+    fun filterUserGamesList(text: String) {
+        viewModelScope.launch {
+            when (val response = gameBusiness.filterUserGamesList(text)) {
+                is Response.Success -> {
+                    val gamesList = (response.data as? MutableList<*>)
+                    onFetchUserGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())
+                }
+                is Response.Failure -> {
+                    onFetchUserGamesListFailure.postValue(response.error)
                 }
             }
         }

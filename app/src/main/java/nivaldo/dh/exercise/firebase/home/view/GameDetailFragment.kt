@@ -20,7 +20,6 @@ class GameDetailFragment : Fragment() {
 
     private fun loadGameDetail() {
         args.game.let { game ->
-            binding.toolbarLayout.title = game.title
             binding.tvGameTitle.text = game.title
 
             Glide.with(this)

@@ -66,6 +66,9 @@ class HomeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.pbLoadingContent.visibility = View.VISIBLE
+                binding.rvUserGamesList.visibility = View.INVISIBLE
+
                 if (count > 0) {
                     homeViewModel.filterUserGamesList(s.toString())
                 } else {
@@ -99,6 +102,9 @@ class HomeFragment : Fragment() {
         homeViewModel.onFetchUserGamesListSuccess.observe(viewLifecycleOwner, {
             userGamesList.clear()
             userGamesList.addAll(it)
+
+            binding.pbLoadingContent.visibility = View.GONE
+            binding.rvUserGamesList.visibility = View.VISIBLE
 
             binding.rvUserGamesList.adapter?.notifyDataSetChanged()
         })

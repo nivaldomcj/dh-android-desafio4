@@ -20,6 +20,17 @@
         app:mt_placeholder="@string/search_games"
         app:mt_speechMode="true" />
 
+    <ProgressBar
+        android:id="@+id/pb_loading_content"
+        android:theme="@style/Games.ProgressBar.Grey"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user_games_list"
         android:layout_width="match_parent"
@@ -32,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
-        tools:itemCount="10"
+        tools:itemCount="0"
         tools:listitem="@layout/item_game" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

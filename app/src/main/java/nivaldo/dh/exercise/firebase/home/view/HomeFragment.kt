@@ -142,7 +142,9 @@ class HomeFragment : Fragment() {
         binding.rvUserGamesList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = HomeGamesListAdapter(userGamesList) {
-                val action = HomeFragmentDirections.actionHomeFragmentToGameDetailFragment(it)
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToGameDetailFragment(it.uid)
+
                 findNavController().navigate(action)
             }
         }
@@ -174,9 +176,13 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SPEECH_INPUT && data != null) {
-            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            handleSpeechRecognizerResult(result)
+        when (requestCode) {
+            RC_SPEECH_INPUT -> {
+                data?.let {
+                    val result = it.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    handleSpeechRecognizerResult(result)
+                }
+            }
         }
     }
 }

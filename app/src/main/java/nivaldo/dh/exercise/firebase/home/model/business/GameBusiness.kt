@@ -20,6 +20,7 @@ class GameBusiness {
                     (gamesListResponse.data as? MutableList<*>)?.filterIsInstance(Game::class.java)
 
                 gamesList = gamesList?.map { game ->
+                    // get downloadable url of image from firestore
                     game.imagePath?.let { imagePath ->
                         when (val imgGameResponse = repository.getGameImageStorageUrl(imagePath)) {
                             is Response.Success -> {

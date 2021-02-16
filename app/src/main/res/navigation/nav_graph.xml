@@ -116,10 +116,6 @@
         android:name="nivaldo.dh.exercise.firebase.home.view.GameDetailFragment"
         tools:layout="@layout/fragment_game_detail">
 
-        <argument
-            android:name="game"
-            app:argType="nivaldo.dh.exercise.firebase.home.model.Game" />
-
         <action
             android:id="@+id/action_game_detail_fragment_to_edit_game_fragment"
             app:destination="@id/edit_game_fragment"
@@ -127,6 +123,9 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
+        <argument
+            android:name="gameUid"
+            app:argType="string" />
 
     </fragment>
 

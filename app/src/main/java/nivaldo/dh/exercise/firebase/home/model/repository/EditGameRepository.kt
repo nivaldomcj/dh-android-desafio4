@@ -1,6 +1,5 @@
 package nivaldo.dh.exercise.firebase.home.model.repository
 
-import android.graphics.Bitmap
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
@@ -48,13 +47,53 @@ class EditGameRepository {
         }
     }
 
-    fun editGame(
-        name: String,
-        releaseYear: String,
+    suspend fun editGame(
+        gameUid: String,
+        title: String,
+        releaseYear: Int,
         description: String,
-        imageBitmap: Bitmap
+        imageBytes: ByteArray? = null,
     ): Response {
-        return Response.Success(true)
+        return try {
+            firebaseAuth.currentUser?.let { user ->
+                // retrieve the reference of this game by UID
+                val reference = firebaseFirestore
+                    .collection(FirebaseFirestoreConstants.Games.COLLECTION_NAME)
+                    .document(gameUid)
+
+                // parse this game reference to model
+                val game = reference.get().await().toObject(Game::class.java)
+
+                // set new fields
+                game?.title = title
+                game?.description = description
+                game?.releaseYear = releaseYear
+
+                // upload new image to storage (if there's any)
+                imageBytes?.let { bytes ->
+                    when (val response = uploadImageToStorage(user.uid, bytes)) {
+                        is Response.Success -> {
+                            game?.imagePath = response.data as String
+                        }
+                        is Response.Failure -> {
+                            response
+                        }
+                    }
+                }
+
+                // finally update record on firestore
+                game?.let {
+                    reference.set(game, SetOptions.merge()).await()
+                    Response.Success(game)
+                } ?: run {
+                    Response.Failure("An error occurred. Try again later")
+                }
+            } ?: run {
+                Response.Failure("An error occurred. Try again later")
+            }
+        } catch (e: FirebaseException) {
+            Response.Failure(e.localizedMessage)
+        }
     }
 
     suspend fun saveGame(

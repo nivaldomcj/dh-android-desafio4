@@ -120,7 +120,7 @@ class EditGameFragment : Fragment() {
             val description = binding.tieDescription.text.toString()
 
             args.game?.let {
-                editGameViewModel.editGame(name, releaseYear, description, gameImageBitmap)
+                editGameViewModel.editGame(it.uid, name, releaseYear, description, gameImageBitmap)
             } ?: run {
                 editGameViewModel.saveGame(name, releaseYear, description, gameImageBitmap)
             }

@@ -8,17 +8,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Game(
     @DocumentId
-    val uid: String? = "",
+    val uid: String = "",
 
     val userUid: String? = "",
 
-    val imagePath: String? = "",
+    var imagePath: String? = "",
 
-    val title: String = "",
+    var title: String = "",
 
-    val releaseYear: Int? = 0,
+    var releaseYear: Int? = 0,
 
-    val description: String? = "",
+    var description: String? = "",
 
     @Exclude
     var mImageStoragePath: String? = "",

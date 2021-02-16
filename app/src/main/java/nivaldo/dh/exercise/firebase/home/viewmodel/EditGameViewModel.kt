@@ -19,13 +19,22 @@ class EditGameViewModel(application: Application) : AndroidViewModel(application
         EditGameBusiness()
     }
 
-    fun editGame(name: String, releaseYear: String, description: String, imageBitmap: Bitmap?) {
-
+    fun editGame(gameUid: String, name: String, year: String, description: String, img: Bitmap?) {
+        viewModelScope.launch {
+            when (val response = business.editGame(gameUid, name, year, description, img)) {
+                is Response.Success -> {
+                    onStoreGameResultSuccess.postValue(response.data as Game)
+                }
+                is Response.Failure -> {
+                    onStoreGameResultFailure.postValue(response.error)
+                }
+            }
+        }
     }
 
-    fun saveGame(name: String, releaseYear: String, description: String, imageBitmap: Bitmap?) {
+    fun saveGame(name: String, year: String, description: String, img: Bitmap?) {
         viewModelScope.launch {
-            when (val response = business.saveGame(name, releaseYear, description, imageBitmap)) {
+            when (val response = business.saveGame(name, year, description, img)) {
                 is Response.Success -> {
                     onStoreGameResultSuccess.postValue(response.data as Game)
                 }

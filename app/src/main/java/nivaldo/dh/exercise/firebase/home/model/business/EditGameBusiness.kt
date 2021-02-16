@@ -11,13 +11,45 @@ class EditGameBusiness {
         EditGameRepository()
     }
 
-    fun editGame(
+    suspend fun editGame(
+        gameUid: String,
         name: String,
         releaseYear: String,
         description: String,
-        imageBitmap: Bitmap
+        imageBitmap: Bitmap?
     ): Response {
-        return Response.Success(null)
+        // check required fields
+        if (name.isBlank()) {
+            return Response.Failure("Name field is required")
+        }
+        if (releaseYear.isBlank()) {
+            return Response.Failure("Release Year field is required")
+        }
+        if (description.isBlank()) {
+            return Response.Failure("Description field is required")
+        }
+
+        // compress image
+        imageBitmap?.let { bitmap ->
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+
+            return repository.editGame(
+                gameUid = gameUid,
+                title = name.trim(),
+                releaseYear = releaseYear.toInt(),
+                description = description.trim(),
+                imageBytes = baos.toByteArray()
+            )
+        } ?: run {
+            // user doesn't want to change game image - so we don't send it
+            return repository.editGame(
+                gameUid = gameUid,
+                title = name.trim(),
+                releaseYear = releaseYear.toInt(),
+                description = description.trim()
+            )
+        }
     }
 
     suspend fun saveGame(
@@ -26,7 +58,7 @@ class EditGameBusiness {
         description: String,
         imageBitmap: Bitmap?
     ): Response {
-        // check all fields
+        // check all required fields
         if (name.isBlank()) {
             return Response.Failure("Name field is required")
         }

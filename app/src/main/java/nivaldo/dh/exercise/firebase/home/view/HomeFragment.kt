@@ -1,6 +1,8 @@
 package nivaldo.dh.exercise.firebase.home.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.mancj.materialsearchbar.MaterialSearchBar
 import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentHomeBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
@@ -20,52 +23,100 @@ import java.util.*
 
 class HomeFragment : Fragment() {
 
+    companion object {
+        const val RC_SPEECH_INPUT = 32
+    }
+
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
     private var completeUserGamesList: MutableList<Game> = mutableListOf()
     private var filteredUserGamesList: MutableList<Game> = mutableListOf()
 
+    private fun handleSpeechRecognizerResult(result: ArrayList<String>?) {
+        result?.let {
+            binding.searchBar.openSearch()
+            binding.searchBar.text = result.first()
+        }
+    }
+
+    private fun openSpeechRecognizerActivity() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US")
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "pt-BR")
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+
+        startActivityForResult(intent, RC_SPEECH_INPUT)
+    }
+
+    private fun filterUserGamesList(searchText: String) {
+        var list: List<Game> = completeUserGamesList
+
+        filteredUserGamesList.apply {
+            clear()
+
+            if (searchText.isNotEmpty()) {
+                list = list.filter {
+                    it.title.toLowerCase(Locale.ROOT).startsWith(searchText)
+                }
+            }
+
+            addAll(list)
+        }
+
+        binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
+    }
+
     private fun initSearchBar() {
         // menu
         binding.searchBar.inflateMenu(R.menu.search_bar_menu)
         binding.searchBar.menu.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.action_sign_out -> {
-                    homeViewModel.signOutUser()
-                }
+                R.id.action_sign_out -> homeViewModel.signOutUser()
             }
 
             return@setOnMenuItemClickListener false
         }
 
         // search
-        binding.searchBar.addTextChangeListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val text: String = s.toString().toLowerCase(Locale.ROOT)
-                var list: List<Game> = completeUserGamesList
-
-                filteredUserGamesList.clear()
-
-                if (count > 0)
-                    list = list.filter { it.title.toLowerCase(Locale.ROOT).startsWith(text) }
-
-                filteredUserGamesList.addAll(list)
-
-                binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
+        val searchListener = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
-            override fun afterTextChanged(s: Editable?) {}
-        })
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterUserGamesList(s.toString().toLowerCase(Locale.ROOT))
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+        binding.searchBar.addTextChangeListener(searchListener)
+
+        // speech
+        val speechListener = object : MaterialSearchBar.OnSearchActionListener {
+            override fun onSearchStateChanged(enabled: Boolean) {
+            }
+
+            override fun onSearchConfirmed(text: CharSequence?) {
+            }
+
+            override fun onButtonClicked(buttonCode: Int) {
+                when (buttonCode) {
+                    MaterialSearchBar.BUTTON_SPEECH -> openSpeechRecognizerActivity()
+                }
+            }
+        }
+        binding.searchBar.setOnSearchActionListener(speechListener)
     }
 
     private fun initObservables() {
-        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, { gamesList ->
+        homeViewModel.onGetGamesListSuccess.observe(viewLifecycleOwner, {
             // notice that user games at initialization will have all data
             // it is not filtered yet, but it can be (so we keep a reference to full list)
-            completeUserGamesList = gamesList.toMutableList()
+            completeUserGamesList = it.toMutableList()
+
+            filteredUserGamesList.clear()
             filteredUserGamesList.addAll(completeUserGamesList)
 
             binding.rvHomeGamesList.adapter?.notifyDataSetChanged()
@@ -86,20 +137,14 @@ class HomeFragment : Fragment() {
     private fun initComponents() {
         binding.fabCreateGame.setOnClickListener {
             // since a new game will be created, at the moment it does not exist (null)
-            //val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
-            //findNavController().navigate(action)
-
-            val list2 =
-
-                Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show()
+            val action = HomeFragmentDirections.actionHomeFragmentToEditGameFragment(null)
+            findNavController().navigate(action)
         }
 
         binding.rvHomeGamesList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = HomeGamesListAdapter(filteredUserGamesList) {
-                val action = HomeFragmentDirections
-                    .actionHomeFragmentToDetailGameFragment(it)
-
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailGameFragment(it)
                 findNavController().navigate(action)
             }
         }
@@ -126,5 +171,18 @@ class HomeFragment : Fragment() {
         initComponents()
         initObservables()
         initSearchBar()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            RC_SPEECH_INPUT -> {
+                data?.let {
+                    val result = it.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    handleSpeechRecognizerResult(result)
+                }
+            }
+        }
     }
 }

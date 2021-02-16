@@ -11,32 +11,35 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import nivaldo.dh.exercise.firebase.R
-import nivaldo.dh.exercise.firebase.databinding.FragmentDetailGameBinding
+import nivaldo.dh.exercise.firebase.databinding.FragmentGameDetailBinding
 
-class DetailGameFragment : Fragment() {
+class GameDetailFragment : Fragment() {
 
-    // TODO DetailGame to GameDetail
-
-    private lateinit var binding: FragmentDetailGameBinding
-    private val args: DetailGameFragmentArgs by navArgs()
+    private lateinit var binding: FragmentGameDetailBinding
+    private val args: GameDetailFragmentArgs by navArgs()
 
     private fun loadGameDetail() {
-        // TODO mudar pra args.game.let{}
-        binding.toolbarLayout.title = args.game.title
-        binding.tvGameTitle.text = args.game.title
+        args.game.let { game ->
+            binding.toolbarLayout.title = game.title
+            binding.tvGameTitle.text = game.title
 
-        Glide.with(this)
-            .load(args.game.mImageStoragePath)
-            .centerCrop()
-            .into(binding.ivGameCover)
+            Glide.with(this)
+                .load(game.mImageStoragePath)
+                .centerCrop()
+                .into(binding.ivGameCover)
 
-        binding.tvGameDescription.text = args.game.description
-        binding.tvGameReleaseYear.text = getString(R.string.fmt_release_year, args.game.releaseYear)
+            binding.tvGameDescription.text = game.description
+            binding.tvGameReleaseYear.text = getString(R.string.fmt_release_year, game.releaseYear)
+        }
     }
 
     private fun initComponents() {
         binding.fabEditGame.setOnClickListener {
-            // TODO call EditGame
+            args.game.let {
+                val action = GameDetailFragmentDirections
+                    .actionGameDetailFragmentToEditGameFragment(it)
+                findNavController().navigate(action)
+            }
         }
     }
 
@@ -52,7 +55,7 @@ class DetailGameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDetailGameBinding.inflate(layoutInflater, container, false)
+        binding = FragmentGameDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
         binding.rvUserGamesList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = HomeGamesListAdapter(userGamesList) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailGameFragment(it)
+                val action = HomeFragmentDirections.actionHomeFragmentToGameDetailFragment(it)
                 findNavController().navigate(action)
             }
         }

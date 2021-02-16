@@ -12,12 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentEditGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
+import nivaldo.dh.exercise.firebase.home.viewmodel.EditGameViewModel
 import nivaldo.dh.exercise.firebase.shared.utils.isReadStoragePermissionAlreadyGranted
 
 class EditGameFragment : Fragment() {
@@ -29,8 +33,13 @@ class EditGameFragment : Fragment() {
         const val REQUEST_CHOOSE_IMAGE = 2048
     }
 
-    private lateinit var binding: FragmentEditGameBinding
     private val args: EditGameFragmentArgs by navArgs()
+
+    private lateinit var binding: FragmentEditGameBinding
+    private lateinit var editGameViewModel: EditGameViewModel
+
+    private var gameImageBitmap: Bitmap? = null
+
 
     private fun callIntentOpenCameraActivity() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
@@ -79,6 +88,21 @@ class EditGameFragment : Fragment() {
         }
     }
 
+    private fun initObservables() {
+        editGameViewModel.onStoreGameResultSuccess.observe(viewLifecycleOwner, {
+            args.game?.let {
+                Toast.makeText(context, "Game edited successfully!", Toast.LENGTH_SHORT).show()
+            } ?: run {
+                Toast.makeText(context, "Game saved successfully!", Toast.LENGTH_LONG).show()
+            }
+
+            findNavController().popBackStack()
+        })
+        editGameViewModel.onStoreGameResultFailure.observe(viewLifecycleOwner, {
+            Toast.makeText(context, "Error: $it", Toast.LENGTH_SHORT).show()
+        })
+    }
+
     private fun initComponents() {
         args.game?.let {
             binding.btnSaveGame.text = getString(R.string.edit_game)
@@ -91,7 +115,15 @@ class EditGameFragment : Fragment() {
         }
 
         binding.btnSaveGame.setOnClickListener {
+            val name = binding.tieName.text.toString()
+            val releaseYear = binding.tieReleaseYear.text.toString()
+            val description = binding.tieDescription.text.toString()
 
+            args.game?.let {
+                editGameViewModel.editGame(name, releaseYear, description, gameImageBitmap)
+            } ?: run {
+                editGameViewModel.saveGame(name, releaseYear, description, gameImageBitmap)
+            }
         }
     }
 
@@ -121,12 +153,15 @@ class EditGameFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
+        editGameViewModel = ViewModelProvider(this).get(EditGameViewModel::class.java)
+
         // editing a game?
         args.game?.let {
             loadGameInformation(it)
         }
 
         initComponents()
+        initObservables()
     }
 
     override fun onRequestPermissionsResult(
@@ -159,12 +194,14 @@ class EditGameFragment : Fragment() {
             when (requestCode) {
                 REQUEST_CAPTURE_IMAGE -> {
                     data?.extras?.get("data").let { imageBitmap ->
-                        binding.ivGameImage.setImageBitmap(imageBitmap as? Bitmap)
+                        gameImageBitmap = imageBitmap as Bitmap
+                        binding.ivGameImage.setImageBitmap(gameImageBitmap)
                     }
                 }
                 REQUEST_CHOOSE_IMAGE -> {
                     data?.data?.let { imageUri ->
                         binding.ivGameImage.setImageURI(imageUri)
+                        gameImageBitmap = binding.ivGameImage.drawable.toBitmap()
                     }
                 }
             }

@@ -1,0 +1,103 @@
+package nivaldo.dh.exercise.firebase.home.model.repository
+
+import android.graphics.Bitmap
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.tasks.await
+import nivaldo.dh.exercise.firebase.home.model.Game
+import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
+import nivaldo.dh.exercise.firebase.shared.constant.FirebaseStorageConstants
+import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.utils.createMD5Hash
+import nivaldo.dh.exercise.firebase.shared.utils.getCurrentDateTime
+
+class EditGameRepository {
+
+    private val firebaseAuth by lazy {
+        Firebase.auth
+    }
+    private val firebaseFirestore by lazy {
+        Firebase.firestore
+    }
+    private val firebaseStorage by lazy {
+        Firebase.storage
+    }
+
+    private suspend fun uploadImageToStorage(
+        userUid: String,
+        imageBytes: ByteArray
+    ): Response {
+        return try {
+            val imagePath = "${createMD5Hash(userUid + getCurrentDateTime())}.jpg"
+
+            // this returns nothing
+            firebaseStorage
+                .reference
+                .child(FirebaseStorageConstants.REFERENCE_GAME_IMAGES_FOLDER)
+                .child(imagePath)
+                .putBytes(imageBytes)
+                .await()
+
+            Response.Success(imagePath)
+        } catch (e: FirebaseException) {
+            Response.Failure(e.localizedMessage)
+        }
+    }
+
+    fun editGame(
+        name: String,
+        releaseYear: String,
+        description: String,
+        imageBitmap: Bitmap
+    ): Response {
+        return Response.Success(true)
+    }
+
+    suspend fun saveGame(
+        title: String,
+        releaseYear: Int,
+        description: String,
+        imageBytes: ByteArray
+    ): Response {
+        return try {
+            firebaseAuth.currentUser?.let { user ->
+                // first we need to upload image of game
+                when (val response = uploadImageToStorage(user.uid, imageBytes)) {
+                    is Response.Success -> {
+                        val imagePath = response.data as String
+
+                        // then we store the game information
+                        val newGame = Game(
+                            userUid = user.uid,
+                            imagePath = imagePath,
+                            title = title,
+                            releaseYear = releaseYear,
+                            description = description
+                        )
+
+                        // this returns nothing
+                        firebaseFirestore
+                            .collection(FirebaseFirestoreConstants.Games.COLLECTION_NAME)
+                            .document()
+                            .set(newGame, SetOptions.merge())
+                            .await()
+
+                        Response.Success(newGame)
+                    }
+                    is Response.Failure -> {
+                        response
+                    }
+                }
+            } ?: run {
+                Response.Failure("An error occurred. Try again later")
+            }
+        } catch (e: FirebaseException) {
+            Response.Failure(e.localizedMessage)
+        }
+    }
+
+}

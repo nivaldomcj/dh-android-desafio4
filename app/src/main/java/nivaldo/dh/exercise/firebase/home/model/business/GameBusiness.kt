@@ -1,5 +1,6 @@
 package nivaldo.dh.exercise.firebase.home.model.business
 
+import android.graphics.Bitmap
 import android.util.Log
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.model.repository.GameRepository

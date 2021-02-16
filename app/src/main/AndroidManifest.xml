@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nivaldo.dh.exercise.firebase">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -15,8 +21,8 @@
         <activity
             android:name="nivaldo.dh.exercise.firebase.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Games"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Games">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

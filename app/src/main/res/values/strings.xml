@@ -18,13 +18,13 @@
     <string name="search_games">Search Games</string>
     <string name="splash">Splash</string>
     <string name="games">Games</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_game">Edit game</string>
+    <string name="create_game">Create game</string>
     <string name="fmt_release_year">Release year: %1$d</string>
     <string name="save_game">Save game</string>
     <string name="release_year">Release year</string>
     <string name="description">Description</string>
-    <string name="games_list_empty">(games list empty)</string>
+    <string name="games_list_empty">(empty)</string>
     <string name="sample_text">Sample text</string>
 </resources>

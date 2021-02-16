@@ -67,10 +67,14 @@ class HomeFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.pbLoadingContent.visibility = View.VISIBLE
-                binding.rvUserGamesList.visibility = View.INVISIBLE
 
-                if (count > 0) {
-                    homeViewModel.filterUserGamesList(s.toString())
+                binding.rvUserGamesList.visibility = View.INVISIBLE
+                binding.tvListEmptyPlaceholder.visibility = View.INVISIBLE
+
+                val query = s.toString().trim()
+
+                if (query.isNotBlank()) {
+                    homeViewModel.filterUserGamesList(query)
                 } else {
                     homeViewModel.getUserGamesList()
                 }
@@ -104,7 +108,14 @@ class HomeFragment : Fragment() {
             userGamesList.addAll(it)
 
             binding.pbLoadingContent.visibility = View.GONE
-            binding.rvUserGamesList.visibility = View.VISIBLE
+
+            if (userGamesList.isNotEmpty()) {
+                binding.rvUserGamesList.visibility = View.VISIBLE
+                binding.tvListEmptyPlaceholder.visibility = View.INVISIBLE
+            } else {
+                binding.rvUserGamesList.visibility = View.INVISIBLE
+                binding.tvListEmptyPlaceholder.visibility = View.VISIBLE
+            }
 
             binding.rvUserGamesList.adapter?.notifyDataSetChanged()
         })

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentEditGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
 
@@ -27,6 +28,12 @@ class EditGameFragment : Fragment() {
     }
 
     private fun initComponents() {
+        args.game?.let {
+            binding.btnSaveGame.text = getString(R.string.edit_game)
+        } ?: run {
+            binding.btnSaveGame.text = getString(R.string.create_game)
+        }
+
         binding.ivGameImage.setOnClickListener {
 
         }

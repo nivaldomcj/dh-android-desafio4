@@ -1,13 +1,16 @@
 package nivaldo.dh.exercise.firebase.home.view
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -15,16 +18,40 @@ import com.bumptech.glide.Glide
 import nivaldo.dh.exercise.firebase.R
 import nivaldo.dh.exercise.firebase.databinding.FragmentEditGameBinding
 import nivaldo.dh.exercise.firebase.home.model.Game
+import nivaldo.dh.exercise.firebase.shared.utils.isReadStoragePermissionAlreadyGranted
 
 class EditGameFragment : Fragment() {
 
     companion object {
-        const val RC_IMAGE_CAPTURE = 1024
-        const val RC_CHOOSE_GALLERY = 2048
+        const val PERMISSION_EXTERNAL_STORAGE = 512
+
+        const val REQUEST_CAPTURE_IMAGE = 1024
+        const val REQUEST_CHOOSE_IMAGE = 2048
     }
 
     private lateinit var binding: FragmentEditGameBinding
     private val args: EditGameFragmentArgs by navArgs()
+
+    private fun callIntentOpenCameraActivity() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
+            startActivityForResult(it, REQUEST_CAPTURE_IMAGE)
+        }
+    }
+
+    private fun callIntentChooseImageFromGallery() {
+        context?.let { context ->
+            if (isReadStoragePermissionAlreadyGranted(context)) {
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).also {
+                    startActivityForResult(it, REQUEST_CHOOSE_IMAGE)
+                }
+            } else {
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PERMISSION_EXTERNAL_STORAGE
+                )
+            }
+        }
+    }
 
     private fun openChooseImageDialog() {
         val options = arrayOf(
@@ -38,16 +65,10 @@ class EditGameFragment : Fragment() {
                 .setItems(options) { _, item ->
                     when (options[item]) {
                         getString(R.string.action_take_photo) -> {
-                            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                                startActivityForResult(takePictureIntent, RC_IMAGE_CAPTURE)
-                            }
+                            callIntentOpenCameraActivity()
                         }
                         getString(R.string.action_choose_gallery) -> {
-//                            val chooseGallery = Intent(
-//                                Intent.ACTION_PICK,
-//                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                            )
-//                            startActivityForResult(chooseGallery, RC_CHOOSE_GALLERY)
+                            callIntentChooseImageFromGallery()
                         }
                     }
                 }
@@ -108,20 +129,43 @@ class EditGameFragment : Fragment() {
         initComponents()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PERMISSION_EXTERNAL_STORAGE -> {
+                val isStoragePermissionGranted = grantResults.isNotEmpty()
+                        && grantResults.first() == PackageManager.PERMISSION_GRANTED
+
+                if (isStoragePermissionGranted) {
+                    callIntentChooseImageFromGallery()
+                } else {
+                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-                RC_IMAGE_CAPTURE -> {
-                    data?.extras?.get("data").let { imageTaken ->
-                        binding.ivGameImage.setImageBitmap(imageTaken as? Bitmap)
+                REQUEST_CAPTURE_IMAGE -> {
+                    data?.extras?.get("data").let { imageBitmap ->
+                        binding.ivGameImage.setImageBitmap(imageBitmap as? Bitmap)
                     }
                 }
-                RC_CHOOSE_GALLERY -> {
-//                    data?.data?.let { selectedImage ->
-//                        Log.i("OOPS", "onActivityResult: $selectedImage")
-//                    }
+                REQUEST_CHOOSE_IMAGE -> {
+                    data?.data?.let { imageUri ->
+                        binding.ivGameImage.setImageURI(imageUri)
+                    }
                 }
             }
         }

@@ -1,14 +1,22 @@
 package nivaldo.dh.exercise.firebase.home.model.repository
 
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import kotlinx.coroutines.tasks.await
+import nivaldo.dh.exercise.firebase.home.model.Game
+import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class HomeRepository {
 
     private val firebaseAuth by lazy {
         Firebase.auth
+    }
+    private val firebaseFirestore by lazy {
+        Firebase.firestore
     }
 
     fun signOutUser(): Response {
@@ -18,6 +26,26 @@ class HomeRepository {
 
             Response.Success(null)
         } catch (e: FirebaseAuthException) {
+            Response.Failure(e.localizedMessage)
+        }
+    }
+
+    suspend fun getUserGamesList(): Response {
+        var gamesList: MutableList<Game?> = mutableListOf()
+
+        return try {
+            firebaseAuth.currentUser?.let { currentUser ->
+                val query = firebaseFirestore
+                    .collection(FirebaseFirestoreConstants.Games.COLLECTION_NAME)
+                    .whereEqualTo(FirebaseFirestoreConstants.Games.FIELD_USER_UID, currentUser.uid)
+                    .get()
+                    .await()
+
+                gamesList = query.toObjects(Game::class.java)
+            }
+
+            Response.Success(gamesList)
+        } catch (e: FirebaseException) {
             Response.Failure(e.localizedMessage)
         }
     }

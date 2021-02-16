@@ -2,7 +2,7 @@ package nivaldo.dh.exercise.firebase.home.model.business
 
 import android.graphics.Bitmap
 import nivaldo.dh.exercise.firebase.home.model.repository.EditGameRepository
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 import java.io.ByteArrayOutputStream
 
 class EditGameBusiness {

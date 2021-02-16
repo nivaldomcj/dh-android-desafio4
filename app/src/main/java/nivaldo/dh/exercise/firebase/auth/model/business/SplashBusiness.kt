@@ -1,7 +1,7 @@
 package nivaldo.dh.exercise.firebase.auth.model.business
 
 import nivaldo.dh.exercise.firebase.auth.model.repository.SplashRepository
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class SplashBusiness {
 

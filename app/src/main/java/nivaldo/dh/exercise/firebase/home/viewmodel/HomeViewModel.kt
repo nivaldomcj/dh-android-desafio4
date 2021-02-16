@@ -6,9 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import nivaldo.dh.exercise.firebase.home.model.Game
-import nivaldo.dh.exercise.firebase.home.model.business.GameBusiness
 import nivaldo.dh.exercise.firebase.home.model.business.HomeBusiness
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,16 +17,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val onSignOutUserSuccess: MutableLiveData<Any> = MutableLiveData()
     val onSignOutUserFailure: MutableLiveData<String> = MutableLiveData()
 
-    private val gameBusiness by lazy {
-        GameBusiness()
-    }
     private val homeBusiness by lazy {
         HomeBusiness()
     }
 
     fun getUserGamesList() {
         viewModelScope.launch {
-            when (val response = gameBusiness.getUserGamesList()) {
+            when (val response = homeBusiness.getUserGamesList()) {
                 is Response.Success -> {
                     val gamesList = (response.data as? MutableList<*>)
                     onFetchUserGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())
@@ -41,7 +37,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun filterUserGamesList(text: String) {
         viewModelScope.launch {
-            when (val response = gameBusiness.filterUserGamesList(text)) {
+            when (val response = homeBusiness.filterUserGamesList(text)) {
                 is Response.Success -> {
                     val gamesList = (response.data as? MutableList<*>)
                     onFetchUserGamesListSuccess.postValue(gamesList?.filterIsInstance<Game>())

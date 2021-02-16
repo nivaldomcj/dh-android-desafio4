@@ -1,4 +1,4 @@
-package nivaldo.dh.exercise.firebase.shared.data
+package nivaldo.dh.exercise.firebase.shared.model.data
 
 sealed class Response {
 

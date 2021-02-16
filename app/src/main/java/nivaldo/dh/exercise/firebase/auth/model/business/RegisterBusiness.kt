@@ -1,7 +1,7 @@
 package nivaldo.dh.exercise.firebase.auth.model.business
 
 import nivaldo.dh.exercise.firebase.auth.model.repository.RegisterRepository
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
 class RegisterBusiness {

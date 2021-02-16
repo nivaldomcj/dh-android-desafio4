@@ -3,7 +3,7 @@ package nivaldo.dh.exercise.firebase.auth.model.repository
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class SplashRepository {
 

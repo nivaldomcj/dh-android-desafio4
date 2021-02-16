@@ -10,7 +10,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import nivaldo.dh.exercise.firebase.auth.model.User
 import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class RegisterRepository {
 

@@ -2,7 +2,7 @@ package nivaldo.dh.exercise.firebase.auth.model.business
 
 import android.content.Context
 import nivaldo.dh.exercise.firebase.auth.model.repository.LoginRepository
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 import nivaldo.dh.exercise.firebase.shared.extension.isValidEmailAddress
 
 class LoginBusiness(context: Context) {

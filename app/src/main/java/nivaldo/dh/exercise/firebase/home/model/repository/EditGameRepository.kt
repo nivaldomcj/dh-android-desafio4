@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.shared.constant.FirebaseFirestoreConstants
 import nivaldo.dh.exercise.firebase.shared.constant.FirebaseStorageConstants
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 import nivaldo.dh.exercise.firebase.shared.utils.createMD5Hash
 import nivaldo.dh.exercise.firebase.shared.utils.getCurrentDateTime
 

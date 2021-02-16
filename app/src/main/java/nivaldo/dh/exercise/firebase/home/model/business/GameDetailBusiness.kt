@@ -3,8 +3,8 @@ package nivaldo.dh.exercise.firebase.home.model.business
 import android.util.Log
 import nivaldo.dh.exercise.firebase.home.model.Game
 import nivaldo.dh.exercise.firebase.home.model.repository.GameDetailRepository
-import nivaldo.dh.exercise.firebase.home.model.repository.GameRepository
-import nivaldo.dh.exercise.firebase.shared.data.Response
+import nivaldo.dh.exercise.firebase.shared.model.repository.GameRepository
+import nivaldo.dh.exercise.firebase.shared.model.data.Response
 
 class GameDetailBusiness {
 
